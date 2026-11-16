@@ -106,6 +106,12 @@ test('furniture tab: filter plants, drag a plant onto the plan, recently used ap
   const placed = items.find((i) => i.catalogId === 'plant-monstera')!;
   expect(Math.abs(placed.x - 2000)).toBeLessThan(20);
   await page.getByTestId('tab-furniture').click();
+  await page.getByRole('tab', { name: /^All/ }).click();
   await expect(page.locator('.catalog h3').first()).toHaveText(/Recently used/);
+  // inside a category only that category's items show — no "Recently used" row
+  await page.getByRole('tab', { name: /^Beds/ }).click();
+  await expect(page.locator('.catalog h3', { hasText: 'Recently used' })).toHaveCount(0);
+  await expect(page.locator('.catalog-grid [data-catalog-id="plant-monstera"]')).toHaveCount(0);
+  await page.getByRole('tab', { name: /^All/ }).click();
   await page.screenshot({ path: 'screenshots/p1-catalog-plants-desktop.png' });
 });

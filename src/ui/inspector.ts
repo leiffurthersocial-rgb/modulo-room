@@ -143,7 +143,7 @@ export function catalogPanel(ctx: AppCtx): TemplateResult {
           </p>`
     }
     ${
-      recent.length && !q
+      recent.length && grouped
         ? html`<h3>Recently used</h3>
             <div class="catalog-grid">${recent.slice(0, 4).map((e) => card(ctx, e))}</div>`
         : nothing
