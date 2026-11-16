@@ -1,6 +1,6 @@
 # PLAN.md — Modulo: Room
 
-Status: **awaiting your OK** before any feature code. Scope for now: **greybox only** (Phases 1–3). Phases 4–5 are listed for orientation and will be re-planned when you unlock them.
+Status: **Phase 1 done — awaiting your review** (see docs/phase-1-review.md). Plan approved 2026-11-16 ("make it usable, greybox"); open questions answered with the proposed defaults (Q1 inside faces, Q2 no PRs, Q4 no WebKit yet, Q5 metric, Q6 keep hosts). Scope for now: **greybox only** (Phases 1–3). Phases 4–5 are listed for orientation and will be re-planned when you unlock them.
 Architecture and reasoning: RESEARCH.md §7. Decision log: DECISIONS.md.
 
 ## Ground rules I'll follow
