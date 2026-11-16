@@ -1,0 +1,42 @@
+{
+  "name": "modulo-room",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Modulo: Room - browser-based 2D/3D room planner",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test --trace off",
+    "env:check": "NODE_USE_ENV_PROXY=1 node scripts/env-check.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "22.20.5",
+    "@types/three": "0.187.0",
+    "eslint": "10.15.0",
+    "eslint-config-prettier": "10.1.8",
+    "globals": "17.14.0",
+    "prettier": "3.10.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.73.0",
+    "vite": "8.3.8",
+    "vite-plugin-pwa": "2.0.0",
+    "vitest": "5.1.0"
+  },
+  "dependencies": {
+    "lit-html": "3.3.3",
+    "three": "0.187.0"
+  }
+}

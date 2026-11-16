@@ -1,0 +1,74 @@
+:root {
+  color-scheme: dark;
+  --bg: #1f2328;
+  --panel: #2b3036;
+  --fg: #e8e4da;
+  --muted: #9aa0a6;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+}
+#app {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100dvh;
+}
+header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid #3a4047;
+}
+#status {
+  color: var(--muted);
+  font-size: 13px;
+}
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: #3a4047;
+  min-height: 0;
+}
+.pane {
+  position: relative;
+  background: var(--panel);
+  min-height: 0;
+}
+#plan {
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  display: block;
+}
+#view {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+output {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+@media (max-width: 700px) {
+  main {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
