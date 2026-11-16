@@ -824,6 +824,1511 @@
       "color": "#c9c3b6",
       "parts": [["box", 0, 0, 0, 1, 1, 1]],
       "tags": ["custom", "box"]
+    },
+    {
+      "id": "bed-140",
+      "name": "Double bed 140\u00d7200",
+      "category": "bed",
+      "dims": {
+        "width": 1450,
+        "depth": 2050,
+        "height": 500
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#d8d2c4",
+      "parts": [
+        ["box", 0, 0, 0, 1, 0.05, 1],
+        ["box", 0, 0.05, 0, 1, 1, 0.55],
+        ["box", 0.04, 0.06, 0.55, 0.48, 0.22, 0.75],
+        ["box", 0.52, 0.06, 0.55, 0.96, 0.22, 0.75],
+        ["box", 0, 0.32, 0.55, 1, 1, 0.66]
+      ],
+      "tags": ["bed"]
+    },
+    {
+      "id": "bed-bunk",
+      "name": "Bunk bed 90\u00d7200",
+      "category": "bed",
+      "dims": {
+        "width": 1000,
+        "depth": 2080,
+        "height": 1650
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#d8d2c4",
+      "parts": [
+        ["box", 0, 0, 0, 0.05, 0.04, 1],
+        ["box", 0.95, 0, 0, 1, 0.04, 1],
+        ["box", 0, 0.96, 0, 0.05, 1, 1],
+        ["box", 0.95, 0.96, 0, 1, 1, 1],
+        ["box", 0.02, 0.02, 0.12, 0.98, 0.98, 0.3],
+        ["box", 0.02, 0.02, 0.62, 0.98, 0.98, 0.8],
+        ["box", 0.05, 0.9, 0.3, 0.12, 1, 0.95]
+      ],
+      "tags": ["bed"]
+    },
+    {
+      "id": "bed-day",
+      "name": "Daybed",
+      "category": "bed",
+      "dims": {
+        "width": 950,
+        "depth": 2050,
+        "height": 750
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#c9c0d8",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.5],
+        ["box", 0, 0, 0, 1, 0.06, 1],
+        ["box", 0, 0.94, 0, 1, 1, 1],
+        ["box", 0, 0, 0, 0.08, 1, 0.9]
+      ],
+      "tags": ["bed"]
+    },
+    {
+      "id": "bed-kids",
+      "name": "Children's bed 70\u00d7160",
+      "category": "kids",
+      "dims": {
+        "width": 780,
+        "depth": 1680,
+        "height": 550
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#d9e3ef",
+      "parts": [
+        ["box", 0, 0, 0, 1, 0.05, 1],
+        ["box", 0, 0.95, 0, 1, 1, 0.75],
+        ["box", 0, 0.05, 0, 1, 0.95, 0.55],
+        ["box", 0.1, 0.07, 0.55, 0.9, 0.22, 0.72]
+      ],
+      "tags": ["kids"]
+    },
+    {
+      "id": "toy-chest",
+      "name": "Toy chest",
+      "category": "kids",
+      "dims": {
+        "width": 800,
+        "depth": 450,
+        "height": 500
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#e8c27a",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.9],
+        ["box", -0.01, -0.02, 0.9, 1.01, 1.02, 1]
+      ],
+      "tags": ["kids"]
+    },
+    {
+      "id": "play-table",
+      "name": "Kids' play table",
+      "category": "kids",
+      "dims": {
+        "width": 800,
+        "depth": 600,
+        "height": 500
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#9fc7a5",
+      "parts": [
+        ["box", 0, 0, 0.9, 1, 1, 1],
+        ["box", 0.03, 0.05, 0, 0.09, 0.15, 0.9],
+        ["box", 0.91, 0.05, 0, 0.97, 0.15, 0.9],
+        ["box", 0.03, 0.85, 0, 0.09, 0.95, 0.9],
+        ["box", 0.91, 0.85, 0, 0.97, 0.95, 0.9]
+      ],
+      "tags": ["kids"]
+    },
+    {
+      "id": "changing-table",
+      "name": "Changing table",
+      "category": "kids",
+      "dims": {
+        "width": 800,
+        "depth": 500,
+        "height": 950
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#e2ddd2",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.9],
+        ["box", 0, 0, 0.9, 1, 0.06, 1],
+        ["box", 0, 0, 0.9, 0.04, 1, 1],
+        ["box", 0.96, 0, 0.9, 1, 1, 1]
+      ],
+      "tags": ["kids"]
+    },
+    {
+      "id": "sofa-loveseat",
+      "name": "Loveseat",
+      "category": "sofa",
+      "dims": {
+        "width": 1300,
+        "depth": 850,
+        "height": 820
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#9aa5b1",
+      "parts": [
+        ["box", 0, 0, 0, 1, 0.25, 1],
+        ["box", 0, 0, 0, 0.13, 1, 0.7],
+        ["box", 0.87, 0, 0, 1, 1, 0.7],
+        ["box", 0.13, 0.25, 0, 0.87, 1, 0.5]
+      ],
+      "tags": ["sofa"]
+    },
+    {
+      "id": "sofa-chaise",
+      "name": "Sofa with chaise",
+      "category": "sofa",
+      "dims": {
+        "width": 2400,
+        "depth": 1550,
+        "height": 820
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#9aa5b1",
+      "parts": [
+        ["box", 0, 0, 0, 1, 0.18, 1],
+        ["box", 0, 0, 0, 0.06, 0.6, 0.7],
+        ["box", 0.94, 0, 0, 1, 1, 0.7],
+        ["box", 0.06, 0.18, 0, 0.62, 0.6, 0.5],
+        ["box", 0.62, 0.18, 0, 0.94, 1, 0.5]
+      ],
+      "tags": ["sofa"]
+    },
+    {
+      "id": "pouf",
+      "name": "Pouf",
+      "category": "sofa",
+      "dims": {
+        "width": 500,
+        "depth": 500,
+        "height": 420
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#c7a98b",
+      "parts": [["cyl", 0, 0, 0, 1, 1, 1]],
+      "tags": ["sofa"]
+    },
+    {
+      "id": "ottoman",
+      "name": "Ottoman",
+      "category": "sofa",
+      "dims": {
+        "width": 800,
+        "depth": 600,
+        "height": 420
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#9aa5b1",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["sofa"]
+    },
+    {
+      "id": "chair-lounge",
+      "name": "Lounge chair",
+      "category": "chair",
+      "dims": {
+        "width": 780,
+        "depth": 850,
+        "height": 800
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#a9b2a0",
+      "parts": [
+        ["box", 0.1, 0.15, 0.3, 0.9, 1, 0.48],
+        ["box", 0.1, 0, 0.3, 0.9, 0.2, 1],
+        ["box", 0, 0.1, 0, 0.08, 1, 0.6],
+        ["box", 0.92, 0.1, 0, 1, 1, 0.6]
+      ],
+      "tags": ["chair"]
+    },
+    {
+      "id": "bench",
+      "name": "Bench",
+      "category": "chair",
+      "dims": {
+        "width": 1200,
+        "depth": 380,
+        "height": 450
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#b89a74",
+      "parts": [
+        ["box", 0, 0, 0.85, 1, 1, 1],
+        ["box", 0.03, 0.05, 0, 0.07, 0.95, 0.85],
+        ["box", 0.93, 0.05, 0, 0.97, 0.95, 0.85]
+      ],
+      "tags": ["chair"]
+    },
+    {
+      "id": "stool-bar",
+      "name": "Bar stool",
+      "category": "chair",
+      "dims": {
+        "width": 400,
+        "depth": 400,
+        "height": 750
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#7f6a55",
+      "parts": [
+        ["cyl", 0, 0, 0.92, 1, 1, 1],
+        ["cyl", 0.42, 0.42, 0, 0.58, 0.58, 0.92],
+        ["cyl", 0.15, 0.15, 0, 0.85, 0.85, 0.03]
+      ],
+      "tags": ["chair"]
+    },
+    {
+      "id": "table-dining-6",
+      "name": "Dining table 180\u00d790",
+      "category": "table",
+      "dims": {
+        "width": 1800,
+        "depth": 900,
+        "height": 750
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#b89a74",
+      "parts": [
+        ["box", 0, 0, 0.95, 1, 1, 1],
+        ["box", 0.02, 0.04, 0, 0.05, 0.12, 0.95],
+        ["box", 0.95, 0.04, 0, 0.98, 0.12, 0.95],
+        ["box", 0.02, 0.88, 0, 0.05, 0.96, 0.95],
+        ["box", 0.95, 0.88, 0, 0.98, 0.96, 0.95]
+      ],
+      "tags": ["table"]
+    },
+    {
+      "id": "table-small",
+      "name": "Bistro table \u00d870",
+      "category": "table",
+      "dims": {
+        "width": 700,
+        "depth": 700,
+        "height": 750
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#b89a74",
+      "parts": [
+        ["cyl", 0, 0, 0.95, 1, 1, 1],
+        ["cyl", 0.44, 0.44, 0, 0.56, 0.56, 0.95],
+        ["cyl", 0.2, 0.2, 0, 0.8, 0.8, 0.03]
+      ],
+      "tags": ["table"]
+    },
+    {
+      "id": "table-console",
+      "name": "Console table",
+      "category": "table",
+      "dims": {
+        "width": 1200,
+        "depth": 350,
+        "height": 780
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#b89a74",
+      "parts": [
+        ["box", 0, 0, 0.94, 1, 1, 1],
+        ["box", 0.02, 0.08, 0, 0.05, 0.92, 0.94],
+        ["box", 0.95, 0.08, 0, 0.98, 0.92, 0.94],
+        ["box", 0.02, 0.08, 0.15, 0.98, 0.92, 0.2]
+      ],
+      "tags": ["table"]
+    },
+    {
+      "id": "table-bar",
+      "name": "Bar table",
+      "category": "table",
+      "dims": {
+        "width": 1200,
+        "depth": 600,
+        "height": 1050
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#b89a74",
+      "parts": [
+        ["box", 0, 0, 0.95, 1, 1, 1],
+        ["box", 0.45, 0.3, 0, 0.55, 0.7, 0.95]
+      ],
+      "tags": ["table"]
+    },
+    {
+      "id": "table-coffee-round",
+      "name": "Round coffee table",
+      "category": "table",
+      "dims": {
+        "width": 900,
+        "depth": 900,
+        "height": 400
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#b89a74",
+      "parts": [
+        ["cyl", 0, 0, 0.85, 1, 1, 1],
+        ["cyl", 0.3, 0.3, 0, 0.7, 0.7, 0.85]
+      ],
+      "tags": ["table"]
+    },
+    {
+      "id": "sideboard",
+      "name": "Sideboard",
+      "category": "storage",
+      "dims": {
+        "width": 1800,
+        "depth": 450,
+        "height": 800
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#e2ddd2",
+      "parts": [
+        ["box", 0, 0, 0.06, 1, 1, 1],
+        ["box", 0.03, 0.1, 0, 0.06, 0.9, 0.06],
+        ["box", 0.94, 0.1, 0, 0.97, 0.9, 0.06]
+      ],
+      "tags": ["storage"],
+      "access": true
+    },
+    {
+      "id": "wardrobe-sliding",
+      "name": "Wardrobe, sliding 200",
+      "category": "storage",
+      "dims": {
+        "width": 2000,
+        "depth": 650,
+        "height": 2200
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#e2ddd2",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 1],
+        ["box", 0.5, 0.97, 0.03, 0.51, 1, 0.97]
+      ],
+      "tags": ["storage"],
+      "access": true
+    },
+    {
+      "id": "wardrobe-corner",
+      "name": "Corner wardrobe",
+      "category": "storage",
+      "dims": {
+        "width": 1100,
+        "depth": 1100,
+        "height": 2100
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#e2ddd2",
+      "parts": [
+        ["box", 0, 0, 0, 1, 0.55, 1],
+        ["box", 0, 0.55, 0, 0.55, 1, 1]
+      ],
+      "tags": ["storage"],
+      "access": true
+    },
+    {
+      "id": "shelf-cube-4x4",
+      "name": "Cube shelf 4\u00d74",
+      "category": "storage",
+      "dims": {
+        "width": 1470,
+        "depth": 390,
+        "height": 1470
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#e2ddd2",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.03],
+        ["box", 0, 0, 0.97, 1, 1, 1],
+        ["box", 0, 0, 0, 0.03, 1, 1],
+        ["box", 0.97, 0, 0, 1, 1, 1],
+        ["box", 0.238, 0, 0, 0.262, 1, 1],
+        ["box", 0.488, 0, 0, 0.512, 1, 1],
+        ["box", 0.738, 0, 0, 0.762, 1, 1],
+        ["box", 0, 0, 0.238, 1, 1, 0.262],
+        ["box", 0, 0, 0.488, 1, 1, 0.512],
+        ["box", 0, 0, 0.738, 1, 1, 0.762]
+      ],
+      "tags": ["storage"],
+      "access": true
+    },
+    {
+      "id": "shelf-cube-2x4",
+      "name": "Cube shelf 2\u00d74",
+      "category": "storage",
+      "dims": {
+        "width": 780,
+        "depth": 390,
+        "height": 1470
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#e2ddd2",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.03],
+        ["box", 0, 0, 0.97, 1, 1, 1],
+        ["box", 0, 0, 0, 0.03, 1, 1],
+        ["box", 0.97, 0, 0, 1, 1, 1],
+        ["box", 0.488, 0, 0, 0.512, 1, 1],
+        ["box", 0, 0, 0.238, 1, 1, 0.262],
+        ["box", 0, 0, 0.488, 1, 1, 0.512],
+        ["box", 0, 0, 0.738, 1, 1, 0.762]
+      ],
+      "tags": ["storage"],
+      "access": true
+    },
+    {
+      "id": "shoe-cabinet",
+      "name": "Shoe cabinet",
+      "category": "storage",
+      "dims": {
+        "width": 800,
+        "depth": 300,
+        "height": 1000
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#e2ddd2",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["storage"]
+    },
+    {
+      "id": "coat-rack",
+      "name": "Coat rack",
+      "category": "storage",
+      "dims": {
+        "width": 450,
+        "depth": 450,
+        "height": 1800
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#7f6a55",
+      "parts": [
+        ["cyl", 0.45, 0.45, 0, 0.55, 0.55, 1],
+        ["cyl", 0.1, 0.1, 0, 0.9, 0.9, 0.03],
+        ["sph", 0.3, 0.3, 0.92, 0.7, 0.7, 1]
+      ],
+      "tags": ["storage"]
+    },
+    {
+      "id": "cabinet-display",
+      "name": "Display cabinet",
+      "category": "storage",
+      "dims": {
+        "width": 900,
+        "depth": 420,
+        "height": 1850
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#d6e2e8",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 1],
+        ["box", 0.04, 0.95, 0.04, 0.96, 1, 0.96]
+      ],
+      "tags": ["storage"],
+      "access": true
+    },
+    {
+      "id": "cabinet-wall",
+      "name": "Wall cabinet",
+      "category": "storage",
+      "dims": {
+        "width": 800,
+        "depth": 350,
+        "height": 600
+      },
+      "mount": "wall",
+      "elevation": 1500,
+      "color": "#e2ddd2",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["storage"]
+    },
+    {
+      "id": "desk-l",
+      "name": "Corner desk",
+      "category": "desk",
+      "dims": {
+        "width": 1600,
+        "depth": 1400,
+        "height": 740
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#d9cbb2",
+      "parts": [
+        ["box", 0, 0, 0.95, 1, 0.5, 1],
+        ["box", 0, 0.5, 0.95, 0.45, 1, 1],
+        ["box", 0, 0, 0, 0.03, 1, 0.95],
+        ["box", 0.97, 0, 0, 1, 0.5, 0.95],
+        ["box", 0.42, 0.97, 0, 0.45, 1, 0.95]
+      ],
+      "tags": ["desk"],
+      "access": true
+    },
+    {
+      "id": "desk-standing",
+      "name": "Standing desk",
+      "category": "desk",
+      "dims": {
+        "width": 1400,
+        "depth": 700,
+        "height": 1050
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#d9cbb2",
+      "parts": [
+        ["box", 0, 0, 0.95, 1, 1, 1],
+        ["box", 0.08, 0.4, 0, 0.12, 0.6, 0.95],
+        ["box", 0.88, 0.4, 0, 0.92, 0.6, 0.95],
+        ["box", 0.05, 0.3, 0, 0.15, 0.7, 0.03],
+        ["box", 0.85, 0.3, 0, 0.95, 0.7, 0.03]
+      ],
+      "tags": ["desk"],
+      "access": true
+    },
+    {
+      "id": "filing-cabinet",
+      "name": "Filing cabinet",
+      "category": "desk",
+      "dims": {
+        "width": 400,
+        "depth": 550,
+        "height": 700
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#8d939b",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["desk"],
+      "access": true
+    },
+    {
+      "id": "monitor",
+      "name": "Monitor",
+      "category": "electronics",
+      "dims": {
+        "width": 620,
+        "depth": 200,
+        "height": 450
+      },
+      "mount": "surface",
+      "elevation": 0,
+      "color": "#202226",
+      "parts": [
+        ["box", 0, 0.4, 0.25, 1, 0.55, 1],
+        ["box", 0.45, 0.45, 0, 0.55, 0.55, 0.25],
+        ["box", 0.3, 0.2, 0, 0.7, 0.8, 0.03]
+      ],
+      "tags": ["electronics"]
+    },
+    {
+      "id": "tv-65",
+      "name": "Television 65\"",
+      "category": "electronics",
+      "dims": {
+        "width": 1450,
+        "depth": 80,
+        "height": 840
+      },
+      "mount": "wall",
+      "elevation": 950,
+      "color": "#202226",
+      "parts": [["box", 0, 0.3, 0, 1, 1, 1]],
+      "tags": ["electronics"]
+    },
+    {
+      "id": "speaker",
+      "name": "Floor speaker",
+      "category": "electronics",
+      "dims": {
+        "width": 250,
+        "depth": 300,
+        "height": 1000
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#2c2f34",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["electronics"]
+    },
+    {
+      "id": "printer",
+      "name": "Printer",
+      "category": "electronics",
+      "dims": {
+        "width": 450,
+        "depth": 400,
+        "height": 250
+      },
+      "mount": "surface",
+      "elevation": 0,
+      "color": "#e6e7e9",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["electronics"]
+    },
+    {
+      "id": "kitchen-base-40",
+      "name": "Kitchen base unit 40",
+      "category": "kitchen",
+      "dims": {
+        "width": 400,
+        "depth": 600,
+        "height": 900
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#f0eee9",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.96],
+        ["box", 0, 0, 0.96, 1, 1, 1]
+      ],
+      "tags": ["kitchen"],
+      "access": true,
+      "clearance": 1000
+    },
+    {
+      "id": "kitchen-base-80",
+      "name": "Kitchen base unit 80",
+      "category": "kitchen",
+      "dims": {
+        "width": 800,
+        "depth": 600,
+        "height": 900
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#f0eee9",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.96],
+        ["box", 0, 0, 0.96, 1, 1, 1]
+      ],
+      "tags": ["kitchen"],
+      "access": true,
+      "clearance": 1000
+    },
+    {
+      "id": "kitchen-corner",
+      "name": "Kitchen corner unit",
+      "category": "kitchen",
+      "dims": {
+        "width": 900,
+        "depth": 900,
+        "height": 900
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#f0eee9",
+      "parts": [
+        ["box", 0, 0, 0, 1, 0.67, 0.96],
+        ["box", 0, 0.67, 0, 0.67, 1, 0.96],
+        ["box", 0, 0, 0.96, 1, 0.67, 1],
+        ["box", 0, 0.67, 0.96, 0.67, 1, 1]
+      ],
+      "tags": ["kitchen"],
+      "access": true,
+      "clearance": 1000
+    },
+    {
+      "id": "dishwasher",
+      "name": "Dishwasher",
+      "category": "kitchen",
+      "dims": {
+        "width": 600,
+        "depth": 600,
+        "height": 850
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#dfe3e6",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["kitchen", "appliance"],
+      "access": true,
+      "clearance": 1000
+    },
+    {
+      "id": "oven-tall",
+      "name": "Tall oven unit",
+      "category": "kitchen",
+      "dims": {
+        "width": 600,
+        "depth": 600,
+        "height": 2100
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#f0eee9",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 1],
+        ["box", 0.08, 0.98, 0.35, 0.92, 1, 0.6]
+      ],
+      "tags": ["kitchen"],
+      "access": true,
+      "clearance": 1000
+    },
+    {
+      "id": "microwave",
+      "name": "Microwave",
+      "category": "kitchen",
+      "dims": {
+        "width": 500,
+        "depth": 380,
+        "height": 300
+      },
+      "mount": "surface",
+      "elevation": 0,
+      "color": "#c9cdd2",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["kitchen", "appliance"]
+    },
+    {
+      "id": "hood",
+      "name": "Cooker hood",
+      "category": "kitchen",
+      "dims": {
+        "width": 600,
+        "depth": 500,
+        "height": 600
+      },
+      "mount": "wall",
+      "elevation": 1550,
+      "color": "#c9cdd2",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.25],
+        ["box", 0.35, 0, 0.25, 0.65, 0.4, 1]
+      ],
+      "tags": ["kitchen"]
+    },
+    {
+      "id": "kitchen-wall-corner",
+      "name": "Kitchen wall corner",
+      "category": "kitchen",
+      "dims": {
+        "width": 650,
+        "depth": 650,
+        "height": 700
+      },
+      "mount": "wall",
+      "elevation": 1450,
+      "color": "#f0eee9",
+      "parts": [
+        ["box", 0, 0, 0, 1, 0.54, 1],
+        ["box", 0, 0.54, 0, 0.54, 1, 1]
+      ],
+      "tags": ["kitchen"]
+    },
+    {
+      "id": "fridge-american",
+      "name": "American fridge",
+      "category": "kitchen",
+      "dims": {
+        "width": 910,
+        "depth": 720,
+        "height": 1780
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#dfe3e6",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 1],
+        ["box", 0.495, 0.97, 0.03, 0.505, 1, 0.97]
+      ],
+      "tags": ["kitchen"],
+      "access": true,
+      "clearance": 1000
+    },
+    {
+      "id": "washbasin-double",
+      "name": "Double washbasin",
+      "category": "bathroom",
+      "dims": {
+        "width": 1200,
+        "depth": 480,
+        "height": 850
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#f5f5f5",
+      "parts": [
+        ["box", 0, 0, 0.85, 1, 1, 1],
+        ["box", 0, 0, 0.35, 1, 0.9, 0.85]
+      ],
+      "tags": ["bathroom"],
+      "access": true,
+      "clearance": 600
+    },
+    {
+      "id": "bidet",
+      "name": "Bidet",
+      "category": "bathroom",
+      "dims": {
+        "width": 380,
+        "depth": 560,
+        "height": 400
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#f5f5f5",
+      "parts": [["cyl", 0.05, 0.1, 0, 0.95, 1, 1]],
+      "tags": ["bathroom"]
+    },
+    {
+      "id": "bathtub-corner",
+      "name": "Corner bath",
+      "category": "bathroom",
+      "dims": {
+        "width": 1400,
+        "depth": 1400,
+        "height": 560
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#f5f5f5",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 1],
+        ["cyl", 0.08, 0.08, 0.3, 0.92, 0.92, 1.01]
+      ],
+      "tags": ["bathroom"]
+    },
+    {
+      "id": "shower-walkin",
+      "name": "Walk-in shower 120\u00d790",
+      "category": "bathroom",
+      "dims": {
+        "width": 1200,
+        "depth": 900,
+        "height": 2000
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#e6eef2",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.03],
+        ["box", 0.98, 0, 0.03, 1, 0.6, 1]
+      ],
+      "tags": ["bathroom"]
+    },
+    {
+      "id": "washer-dryer",
+      "name": "Washer + dryer stack",
+      "category": "bathroom",
+      "dims": {
+        "width": 600,
+        "depth": 620,
+        "height": 1750
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#f5f5f5",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.49],
+        ["box", 0, 0, 0.51, 1, 1, 1],
+        ["cyl", 0.2, 0.98, 0.1, 0.8, 1, 0.4],
+        ["cyl", 0.2, 0.98, 0.6, 0.8, 1, 0.9]
+      ],
+      "tags": ["appliance", "laundry"],
+      "access": true,
+      "clearance": 600
+    },
+    {
+      "id": "towel-radiator",
+      "name": "Towel radiator",
+      "category": "bathroom",
+      "dims": {
+        "width": 500,
+        "depth": 100,
+        "height": 1200
+      },
+      "mount": "wall",
+      "elevation": 300,
+      "color": "#eceff1",
+      "parts": [
+        ["box", 0, 0, 0, 0.06, 1, 1],
+        ["box", 0.94, 0, 0, 1, 1, 1],
+        ["box", 0, 0.2, 0.1, 1, 0.8, 0.13],
+        ["box", 0, 0.2, 0.2, 1, 0.8, 0.23],
+        ["box", 0, 0.2, 0.3, 1, 0.8, 0.32999999999999996],
+        ["box", 0, 0.2, 0.4, 1, 0.8, 0.43000000000000005],
+        ["box", 0, 0.2, 0.5, 1, 0.8, 0.53],
+        ["box", 0, 0.2, 0.6, 1, 0.8, 0.63],
+        ["box", 0, 0.2, 0.7, 1, 0.8, 0.73],
+        ["box", 0, 0.2, 0.8, 1, 0.8, 0.8300000000000001],
+        ["box", 0, 0.2, 0.9, 1, 0.8, 0.93]
+      ],
+      "tags": ["bathroom"]
+    },
+    {
+      "id": "mirror-cabinet",
+      "name": "Mirror cabinet",
+      "category": "bathroom",
+      "dims": {
+        "width": 800,
+        "depth": 150,
+        "height": 700
+      },
+      "mount": "wall",
+      "elevation": 1300,
+      "color": "#d6e2e8",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["bathroom"]
+    },
+    {
+      "id": "plant-monstera",
+      "name": "Monstera",
+      "category": "plant",
+      "dims": {
+        "width": 900,
+        "depth": 900,
+        "height": 1300
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#6f8f5f",
+      "parts": [
+        ["cyl", 0.3, 0.3, 0, 0.7, 0.7, 0.28],
+        ["sph", 0, 0, 0.28, 1, 1, 0.8],
+        ["sph", 0.15, 0.2, 0.55, 0.85, 0.8, 1]
+      ],
+      "tags": ["plant", "large"]
+    },
+    {
+      "id": "plant-fiddle",
+      "name": "Fiddle-leaf fig",
+      "category": "plant",
+      "dims": {
+        "width": 600,
+        "depth": 600,
+        "height": 1800
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#6f8f5f",
+      "parts": [
+        ["cyl", 0.3, 0.3, 0, 0.7, 0.7, 0.2],
+        ["cyl", 0.47, 0.47, 0.2, 0.53, 0.53, 0.5],
+        ["sph", 0.05, 0.05, 0.4, 0.95, 0.95, 0.8],
+        ["sph", 0.15, 0.15, 0.7, 0.85, 0.85, 1]
+      ],
+      "tags": ["plant", "tall"]
+    },
+    {
+      "id": "plant-snake",
+      "name": "Snake plant",
+      "category": "plant",
+      "dims": {
+        "width": 350,
+        "depth": 350,
+        "height": 800
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#5d7f4c",
+      "parts": [
+        ["cyl", 0.15, 0.15, 0, 0.85, 0.85, 0.35],
+        ["cone", 0.2, 0.2, 0.35, 0.5, 0.5, 1],
+        ["cone", 0.45, 0.25, 0.35, 0.8, 0.6, 0.92],
+        ["cone", 0.25, 0.5, 0.35, 0.6, 0.85, 0.85]
+      ],
+      "tags": ["plant"]
+    },
+    {
+      "id": "plant-palm",
+      "name": "Kentia palm",
+      "category": "plant",
+      "dims": {
+        "width": 1000,
+        "depth": 1000,
+        "height": 1900
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#6f9a5f",
+      "parts": [
+        ["cyl", 0.35, 0.35, 0, 0.65, 0.65, 0.22],
+        ["cyl", 0.48, 0.48, 0.22, 0.52, 0.52, 0.65],
+        ["cone", 0, 0, 0.55, 1, 1, 1]
+      ],
+      "tags": ["plant", "tall"]
+    },
+    {
+      "id": "plant-olive",
+      "name": "Olive tree",
+      "category": "plant",
+      "dims": {
+        "width": 700,
+        "depth": 700,
+        "height": 1600
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#8a9a6a",
+      "parts": [
+        ["cyl", 0.3, 0.3, 0, 0.7, 0.7, 0.25],
+        ["cyl", 0.47, 0.47, 0.25, 0.53, 0.53, 0.6],
+        ["sph", 0, 0, 0.55, 1, 1, 1]
+      ],
+      "tags": ["plant", "tree"]
+    },
+    {
+      "id": "plant-cactus",
+      "name": "Cactus",
+      "category": "plant",
+      "dims": {
+        "width": 250,
+        "depth": 250,
+        "height": 600
+      },
+      "mount": "surface",
+      "elevation": 0,
+      "color": "#5f8a55",
+      "parts": [
+        ["cyl", 0.2, 0.2, 0, 0.8, 0.8, 0.25],
+        ["cyl", 0.35, 0.35, 0.25, 0.65, 0.65, 1],
+        ["cyl", 0.1, 0.42, 0.45, 0.3, 0.58, 0.75]
+      ],
+      "tags": ["plant", "small"]
+    },
+    {
+      "id": "plant-hanging",
+      "name": "Hanging plant",
+      "category": "plant",
+      "dims": {
+        "width": 450,
+        "depth": 450,
+        "height": 700
+      },
+      "mount": "ceiling",
+      "elevation": 0,
+      "color": "#6f8f5f",
+      "parts": [
+        ["cyl", 0.48, 0.48, 0.7, 0.52, 0.52, 1],
+        ["cyl", 0.25, 0.25, 0.45, 0.75, 0.75, 0.7],
+        ["sph", 0, 0, 0, 1, 1, 0.55]
+      ],
+      "tags": ["plant", "hanging"]
+    },
+    {
+      "id": "plant-herbs",
+      "name": "Herb box",
+      "category": "plant",
+      "dims": {
+        "width": 600,
+        "depth": 200,
+        "height": 250
+      },
+      "mount": "surface",
+      "elevation": 0,
+      "color": "#7aa063",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.5],
+        ["sph", 0, 0, 0.4, 0.35, 1, 1],
+        ["sph", 0.32, 0, 0.4, 0.68, 1, 0.95],
+        ["sph", 0.65, 0, 0.4, 1, 1, 1]
+      ],
+      "tags": ["plant", "kitchen"]
+    },
+    {
+      "id": "plant-stand",
+      "name": "Plant stand, 3 pots",
+      "category": "plant",
+      "dims": {
+        "width": 800,
+        "depth": 350,
+        "height": 900
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#7aa063",
+      "parts": [
+        ["box", 0, 0, 0, 0.04, 1, 1],
+        ["box", 0.96, 0, 0, 1, 1, 1],
+        ["box", 0, 0, 0.3, 1, 1, 0.33],
+        ["box", 0, 0, 0.65, 1, 1, 0.68],
+        ["cyl", 0.1, 0.15, 0.33, 0.4, 0.85, 0.5],
+        ["sph", 0.05, 0.05, 0.48, 0.45, 0.95, 0.65],
+        ["cyl", 0.6, 0.15, 0.68, 0.9, 0.85, 0.85],
+        ["sph", 0.55, 0.05, 0.83, 0.95, 0.95, 1]
+      ],
+      "tags": ["plant", "stand"]
+    },
+    {
+      "id": "plant-bonsai",
+      "name": "Bonsai",
+      "category": "plant",
+      "dims": {
+        "width": 350,
+        "depth": 250,
+        "height": 350
+      },
+      "mount": "surface",
+      "elevation": 0,
+      "color": "#6f8f5f",
+      "parts": [
+        ["box", 0.1, 0.15, 0, 0.9, 0.85, 0.2],
+        ["cyl", 0.45, 0.4, 0.2, 0.55, 0.6, 0.5],
+        ["sph", 0, 0, 0.45, 1, 1, 1]
+      ],
+      "tags": ["plant", "small"]
+    },
+    {
+      "id": "planter-box",
+      "name": "Planter box",
+      "category": "plant",
+      "dims": {
+        "width": 1000,
+        "depth": 400,
+        "height": 700
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#6f8f5f",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.45],
+        ["sph", 0, 0, 0.35, 0.5, 1, 1],
+        ["sph", 0.45, 0, 0.3, 1, 1, 0.95]
+      ],
+      "tags": ["plant", "planter"]
+    },
+    {
+      "id": "lamp-pendant",
+      "name": "Pendant lamp",
+      "category": "lamp",
+      "dims": {
+        "width": 400,
+        "depth": 400,
+        "height": 600
+      },
+      "mount": "ceiling",
+      "elevation": 0,
+      "color": "#e8dcc0",
+      "parts": [
+        ["cyl", 0.48, 0.48, 0.4, 0.52, 0.52, 1],
+        ["cone", 0, 0, 0, 1, 1, 0.45]
+      ],
+      "tags": ["lamp"]
+    },
+    {
+      "id": "lamp-wall",
+      "name": "Wall light",
+      "category": "lamp",
+      "dims": {
+        "width": 200,
+        "depth": 150,
+        "height": 250
+      },
+      "mount": "wall",
+      "elevation": 1700,
+      "color": "#e8dcc0",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["lamp"]
+    },
+    {
+      "id": "lamp-desk",
+      "name": "Desk lamp",
+      "category": "lamp",
+      "dims": {
+        "width": 200,
+        "depth": 300,
+        "height": 450
+      },
+      "mount": "surface",
+      "elevation": 0,
+      "color": "#4a4f57",
+      "parts": [
+        ["cyl", 0.15, 0.4, 0, 0.85, 0.95, 0.06],
+        ["cyl", 0.45, 0.55, 0.06, 0.55, 0.65, 0.8],
+        ["cone", 0.2, 0, 0.6, 0.8, 0.55, 1]
+      ],
+      "tags": ["lamp"]
+    },
+    {
+      "id": "lamp-arc",
+      "name": "Arc floor lamp",
+      "category": "lamp",
+      "dims": {
+        "width": 1600,
+        "depth": 400,
+        "height": 2000
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#c9cdd2",
+      "parts": [
+        ["cyl", 0, 0.1, 0, 0.25, 0.9, 0.05],
+        ["cyl", 0.1, 0.45, 0.05, 0.15, 0.55, 0.95],
+        ["box", 0.1, 0.45, 0.9, 0.95, 0.55, 0.95],
+        ["cone", 0.8, 0.1, 0.65, 1, 0.9, 0.9]
+      ],
+      "tags": ["lamp"]
+    },
+    {
+      "id": "rug-runner",
+      "name": "Runner rug 80\u00d7250",
+      "category": "rug",
+      "dims": {
+        "width": 800,
+        "depth": 2500,
+        "height": 10
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#b9a68f",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["rug"]
+    },
+    {
+      "id": "rug-small",
+      "name": "Rug 120\u00d7170",
+      "category": "rug",
+      "dims": {
+        "width": 1200,
+        "depth": 1700,
+        "height": 10
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#c7b8a3",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["rug"]
+    },
+    {
+      "id": "rug-round-150",
+      "name": "Round rug \u00d8150",
+      "category": "rug",
+      "dims": {
+        "width": 1500,
+        "depth": 1500,
+        "height": 10
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#c7b8a3",
+      "parts": [["cyl", 0, 0, 0, 1, 1, 1]],
+      "tags": ["rug"]
+    },
+    {
+      "id": "stairs-straight",
+      "name": "Straight stairs",
+      "category": "fixture",
+      "dims": {
+        "width": 900,
+        "depth": 3000,
+        "height": 2600
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#c9c3b6",
+      "parts": [
+        ["box", 0, 0.0, 0, 1, 0.07142857142857142, 0.07142857142857142],
+        ["box", 0, 0.07142857142857142, 0, 1, 0.14285714285714285, 0.14285714285714285],
+        ["box", 0, 0.14285714285714285, 0, 1, 0.21428571428571427, 0.21428571428571427],
+        ["box", 0, 0.21428571428571427, 0, 1, 0.2857142857142857, 0.2857142857142857],
+        ["box", 0, 0.2857142857142857, 0, 1, 0.35714285714285715, 0.35714285714285715],
+        ["box", 0, 0.35714285714285715, 0, 1, 0.42857142857142855, 0.42857142857142855],
+        ["box", 0, 0.42857142857142855, 0, 1, 0.5, 0.5],
+        ["box", 0, 0.5, 0, 1, 0.5714285714285714, 0.5714285714285714],
+        ["box", 0, 0.5714285714285714, 0, 1, 0.6428571428571429, 0.6428571428571429],
+        ["box", 0, 0.6428571428571429, 0, 1, 0.7142857142857143, 0.7142857142857143],
+        ["box", 0, 0.7142857142857143, 0, 1, 0.7857142857142857, 0.7857142857142857],
+        ["box", 0, 0.7857142857142857, 0, 1, 0.8571428571428571, 0.8571428571428571],
+        ["box", 0, 0.8571428571428571, 0, 1, 0.9285714285714286, 0.9285714285714286],
+        ["box", 0, 0.9285714285714286, 0, 1, 1.0, 1.0]
+      ],
+      "tags": ["fixture", "stairs"]
+    },
+    {
+      "id": "column",
+      "name": "Column",
+      "category": "fixture",
+      "dims": {
+        "width": 300,
+        "depth": 300,
+        "height": 2500
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#d4d0c8",
+      "parts": [["box", 0, 0, 0, 1, 1, 1]],
+      "tags": ["fixture", "structure"]
+    },
+    {
+      "id": "column-round",
+      "name": "Round column",
+      "category": "fixture",
+      "dims": {
+        "width": 300,
+        "depth": 300,
+        "height": 2500
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#d4d0c8",
+      "parts": [["cyl", 0, 0, 0, 1, 1, 1]],
+      "tags": ["fixture", "structure"]
+    },
+    {
+      "id": "fireplace",
+      "name": "Fireplace",
+      "category": "fixture",
+      "dims": {
+        "width": 1200,
+        "depth": 450,
+        "height": 1100
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#cfc8bd",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.1],
+        ["box", 0, 0, 0.1, 0.15, 1, 1],
+        ["box", 0.85, 0, 0.1, 1, 1, 1],
+        ["box", 0, 0, 0.85, 1, 1, 1]
+      ],
+      "tags": ["fixture"]
+    },
+    {
+      "id": "fan-ceiling",
+      "name": "Ceiling fan",
+      "category": "fixture",
+      "dims": {
+        "width": 1200,
+        "depth": 1200,
+        "height": 350
+      },
+      "mount": "ceiling",
+      "elevation": 0,
+      "color": "#e6e7e9",
+      "parts": [
+        ["cyl", 0.45, 0.45, 0.6, 0.55, 0.55, 1],
+        ["cyl", 0.38, 0.38, 0.35, 0.62, 0.62, 0.6],
+        ["box", 0, 0.46, 0.4, 1, 0.54, 0.45],
+        ["box", 0.46, 0, 0.4, 0.54, 1, 0.45]
+      ],
+      "tags": ["fixture"]
+    },
+    {
+      "id": "piano",
+      "name": "Upright piano",
+      "category": "leisure",
+      "dims": {
+        "width": 1500,
+        "depth": 600,
+        "height": 1250
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#2b2b2e",
+      "parts": [
+        ["box", 0, 0, 0, 1, 0.6, 1],
+        ["box", 0, 0.6, 0.55, 1, 1, 0.62],
+        ["box", 0.3, 0.75, 0, 0.7, 1, 0.4]
+      ],
+      "tags": ["leisure"],
+      "access": true,
+      "clearance": 900
+    },
+    {
+      "id": "exercise-bike",
+      "name": "Exercise bike",
+      "category": "leisure",
+      "dims": {
+        "width": 550,
+        "depth": 1100,
+        "height": 1300
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#4a4f57",
+      "parts": [
+        ["box", 0.2, 0, 0, 0.8, 1, 0.08],
+        ["box", 0.4, 0.15, 0.08, 0.6, 0.35, 0.85],
+        ["box", 0.4, 0.6, 0.08, 0.6, 0.8, 0.65],
+        ["box", 0.1, 0.1, 0.8, 0.9, 0.25, 0.9],
+        ["box", 0.3, 0.55, 0.62, 0.7, 0.85, 0.7]
+      ],
+      "tags": ["leisure"]
+    },
+    {
+      "id": "treadmill",
+      "name": "Treadmill",
+      "category": "leisure",
+      "dims": {
+        "width": 800,
+        "depth": 1900,
+        "height": 1400
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#4a4f57",
+      "parts": [
+        ["box", 0, 0, 0, 1, 1, 0.12],
+        ["box", 0, 0, 0.12, 0.06, 0.15, 1],
+        ["box", 0.94, 0, 0.12, 1, 0.15, 1],
+        ["box", 0, 0, 0.9, 1, 0.15, 1]
+      ],
+      "tags": ["leisure"]
+    },
+    {
+      "id": "dog-bed",
+      "name": "Dog bed",
+      "category": "leisure",
+      "dims": {
+        "width": 900,
+        "depth": 700,
+        "height": 250
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#b39b84",
+      "parts": [["cyl", 0, 0, 0, 1, 1, 1]],
+      "tags": ["leisure"]
+    },
+    {
+      "id": "laundry-rack",
+      "name": "Drying rack",
+      "category": "leisure",
+      "dims": {
+        "width": 1800,
+        "depth": 550,
+        "height": 1000
+      },
+      "mount": "floor",
+      "elevation": 0,
+      "color": "#c9cdd2",
+      "parts": [
+        ["box", 0, 0, 0.9, 1, 1, 1],
+        ["box", 0.05, 0.45, 0, 0.08, 0.55, 0.9],
+        ["box", 0.92, 0.45, 0, 0.95, 0.55, 0.9]
+      ],
+      "tags": ["leisure"]
     }
   ]
 }

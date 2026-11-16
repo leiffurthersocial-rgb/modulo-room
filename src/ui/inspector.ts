@@ -1,9 +1,9 @@
 import { html, nothing, type TemplateResult } from 'lit-html';
 import { unsafeSVG } from 'lit-html/directives/unsafe-svg.js';
 import type { Store } from '../app/store';
-import { CATALOG, CATEGORIES, catalogEntry, type CatalogEntry } from '../catalog/catalog';
+import { CATALOG, CATEGORIES, catalogEntry, partFootprint, type CatalogEntry } from '../catalog/catalog';
 import { WALL_THICKNESS_PRESETS } from '../model/project';
-import { formatArea, formatLength, type UnitPrefs } from '../model/units';
+import { formatArea, formatDimsCompact, formatLength, type UnitPrefs } from '../model/units';
 import type { Item, OpeningKind, Ref } from '../model/types';
 import { dist } from '../geometry/vec';
 import { SvgPainter } from '../editor2d/painter';
@@ -21,6 +21,8 @@ export interface AppCtx {
   startCalibrate(imageId: string): void;
   importReferenceImage(): void;
   duplicateSelection(): void;
+  panelTab: 'props' | 'furniture';
+  setPanelTab(t: 'props' | 'furniture'): void;
 }
 
 const unitOptions = [
@@ -51,28 +53,8 @@ function thumb(e: CatalogEntry): string {
   const W = e.dims.width;
   const D = e.dims.depth;
   for (const part of [...e.parts].sort((a, b) => a[6] - b[6])) {
-    const [shape, x0, y0, , x1, y1] = part;
-    if (shape === 'cyl') {
-      p.circle(
-        { x: ((x0 + x1) / 2) * W, y: ((y0 + y1) / 2) * D },
-        (Math.min(x1 - x0, y1 - y0) * Math.min(W, D)) / 2,
-        {
-          fill: e.color,
-          stroke: '#4c525b',
-          width: 0.8,
-        },
-      );
-    } else {
-      p.poly(
-        [
-          { x: x0 * W, y: y0 * D },
-          { x: x1 * W, y: y0 * D },
-          { x: x1 * W, y: y1 * D },
-          { x: x0 * W, y: y1 * D },
-        ],
-        { fill: e.color, stroke: '#4c525b', width: 0.8 },
-      );
-    }
+    const pts = partFootprint(part, W, D).map((q) => ({ x: q.x + W / 2, y: q.y + D / 2 }));
+    p.poly(pts, { fill: e.color, stroke: '#4c525b', width: 0.8 });
   }
   const pad = size * 0.06;
   const s = p
@@ -83,64 +65,131 @@ function thumb(e: CatalogEntry): string {
   return s;
 }
 
+export const CATALOG_MIME = 'application/x-modulo-catalog';
+
+function card(ctx: AppCtx, e: CatalogEntry): TemplateResult {
+  const s = ctx.store;
+  const p = ctx.prefs;
+  const on = s.toolOptions.catalogId === e.id && s.tool === 'furniture';
+  return html`<button
+    class=${on ? 'cat-item on' : 'cat-item'}
+    data-catalog-id=${e.id}
+    draggable="true"
+    title=${`${e.name}\n${formatLength(e.dims.width, p)} × ${formatLength(e.dims.depth, p)} × ${formatLength(e.dims.height, p)} high\nTap, then tap the plan — or drag it onto the plan`}
+    @dragstart=${(ev: DragEvent) => {
+      ev.dataTransfer?.setData(CATALOG_MIME, e.id);
+      ev.dataTransfer?.setData('text/plain', e.name);
+      if (ev.dataTransfer) ev.dataTransfer.effectAllowed = 'copy';
+    }}
+    @click=${() => {
+      s.setToolOptions({ catalogId: e.id });
+      s.setTool('furniture');
+    }}
+  >
+    <span class="thumb">${unsafeSVG(thumb(e))}</span>
+    <span class="cat-name">${e.name}</span>
+    <span class="cat-dims">${formatDimsCompact(e.dims.width, e.dims.depth, p)}</span>
+  </button>`;
+}
+
 export function catalogPanel(ctx: AppCtx): TemplateResult {
   const s = ctx.store;
   const o = s.toolOptions;
   const q = o.catalogQuery.trim().toLowerCase();
+  const matches = (e: CatalogEntry) =>
+    !q || e.name.toLowerCase().includes(q) || e.category.includes(q) || e.tags.some((t) => t.includes(q));
   const list = CATALOG.filter(
-    (e) =>
-      (o.catalogCategory === 'all' || e.category === o.catalogCategory) &&
-      (!q || e.name.toLowerCase().includes(q) || e.tags.some((t) => t.includes(q))),
+    (e) => (o.catalogCategory === 'all' || e.category === o.catalogCategory) && matches(e),
   );
+  const counts = new Map<string, number>();
+  for (const e of CATALOG) if (matches(e)) counts.set(e.category, (counts.get(e.category) ?? 0) + 1);
+  const recent = s.recent.map((id) => catalogEntry(id)).filter((e): e is CatalogEntry => !!e);
+  const grouped = o.catalogCategory === 'all' && !q;
+  const placing = s.tool === 'furniture' ? catalogEntry(o.catalogId) : undefined;
   return html`<section class="panel catalog">
-    <h2>Furniture</h2>
-    <input
-      class="search"
-      type="search"
-      placeholder="Search furniture…"
-      .value=${o.catalogQuery}
-      @input=${(e: Event) => s.setToolOptions({ catalogQuery: (e.target as HTMLInputElement).value })}
-    />
-    <div class="chips">
-      ${[{ id: 'all', name: 'All' }, ...CATEGORIES].map(
-        (c) =>
-          html`<button
-            class=${o.catalogCategory === c.id ? 'chip on' : 'chip'}
-            @click=${() => s.setToolOptions({ catalogCategory: c.id })}
-          >
-            ${c.name}
-          </button>`,
-      )}
+    <div class="search-wrap">
+      ${icons.search}
+      <input
+        class="search"
+        type="search"
+        placeholder=${`Search ${CATALOG.length} items…`}
+        aria-label="Search furniture"
+        .value=${o.catalogQuery}
+        @input=${(e: Event) => s.setToolOptions({ catalogQuery: (e.target as HTMLInputElement).value })}
+      />
     </div>
-    <div class="catalog-grid">
-      ${list.map(
-        (e) =>
-          html`<button
-            class=${o.catalogId === e.id && s.tool === 'furniture' ? 'cat-item on' : 'cat-item'}
-            data-catalog-id=${e.id}
-            title=${`${e.name} — ${formatLength(e.dims.width, ctx.prefs)} × ${formatLength(e.dims.depth, ctx.prefs)}`}
-            @click=${() => {
-              s.setToolOptions({ catalogId: e.id });
-              s.setTool('furniture');
-              ctx.toast(`Tap the plan to place: ${e.name}`);
-            }}
-          >
-            <span class="thumb">${unsafeSVG(thumb(e))}</span>
-            <span class="cat-name">${e.name}</span>
-            <span class="cat-dims"
-              >${formatLength(e.dims.width, ctx.prefs)} × ${formatLength(e.dims.depth, ctx.prefs)}</span
-            >
-          </button>`,
-      )}
-      ${list.length === 0 ? html`<p class="muted">Nothing matches “${o.catalogQuery}”.</p>` : nothing}
+    <div class="chips" role="tablist" aria-label="Categories">
+      ${[{ id: 'all', name: 'All' }, ...CATEGORIES].map((c) => {
+        const n = c.id === 'all' ? [...counts.values()].reduce((a, b) => a + b, 0) : (counts.get(c.id) ?? 0);
+        if (c.id !== 'all' && n === 0) return nothing;
+        return html`<button
+          role="tab"
+          aria-selected=${o.catalogCategory === c.id ? 'true' : 'false'}
+          class=${o.catalogCategory === c.id ? 'chip on' : 'chip'}
+          @click=${() => s.setToolOptions({ catalogCategory: c.id })}
+        >
+          ${c.name} <span class="count">${n}</span>
+        </button>`;
+      })}
     </div>
+    ${
+      placing
+        ? html`<div class="placing">
+            <span>Placing <strong>${placing.name}</strong> — tap the plan · R rotates</span>
+            <button class="btn" @click=${() => s.setTool('select')}>Done</button>
+          </div>`
+        : html`<p class="muted small hint-line">
+            Tap an item, then tap the plan — or drag it onto the plan.
+          </p>`
+    }
+    ${
+      recent.length && !q
+        ? html`<h3>Recently used</h3>
+            <div class="catalog-grid">${recent.slice(0, 4).map((e) => card(ctx, e))}</div>`
+        : nothing
+    }
+    ${
+      grouped
+        ? CATEGORIES.map((c) => {
+            const items = CATALOG.filter((e) => e.category === c.id);
+            if (!items.length) return nothing;
+            return html`<h3 class="cat-head">${c.name} <span class="muted">${items.length}</span></h3>
+              <div class="catalog-grid">${items.map((e) => card(ctx, e))}</div>`;
+          })
+        : html`<div class="catalog-grid">${list.map((e) => card(ctx, e))}</div>`
+    }
+    ${list.length === 0 ? html`<p class="muted">Nothing matches “${o.catalogQuery}”.</p>` : nothing}
   </section>`;
 }
 
 // ---------------------------------------------------------------- inspector
 export function inspector(ctx: AppCtx): TemplateResult {
   const s = ctx.store;
-  if (s.tool === 'furniture') return catalogPanel(ctx);
+  const tab = s.tool === 'furniture' ? 'furniture' : ctx.panelTab;
+  const tabs = html`<div class="panel-tabs" role="tablist" aria-label="Side panel">
+    <button
+      role="tab"
+      aria-selected=${tab === 'props' ? 'true' : 'false'}
+      class=${tab === 'props' ? 'on' : ''}
+      @click=${() => ctx.setPanelTab('props')}
+    >
+      ${icons.sliders} Properties
+    </button>
+    <button
+      role="tab"
+      data-testid="tab-furniture"
+      aria-selected=${tab === 'furniture' ? 'true' : 'false'}
+      class=${tab === 'furniture' ? 'on' : ''}
+      @click=${() => ctx.setPanelTab('furniture')}
+    >
+      ${icons.furniture} Furniture <span class="count">${CATALOG.length}</span>
+    </button>
+  </div>`;
+  return html`${tabs}${tab === 'furniture' ? catalogPanel(ctx) : propertiesPanel(ctx)}`;
+}
+
+function propertiesPanel(ctx: AppCtx): TemplateResult {
+  const s = ctx.store;
   const sel = s.selection;
   if (sel.length === 0) return projectPanel(ctx);
   if (sel.length > 1) return multiPanel(ctx, sel);

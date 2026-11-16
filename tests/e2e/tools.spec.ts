@@ -80,3 +80,32 @@ test('autosaves to this device and restores after reload', async ({ page }) => {
   const area = await page.evaluate(() => window.__mr!.store.derived.rooms[0]?.area);
   expect(Math.round(area ?? 0)).toBe(9_000_000);
 });
+
+test('furniture tab: filter plants, drag a plant onto the plan, recently used appears', async ({
+  page,
+}, info) => {
+  test.skip(info.project.name !== 'desktop', 'HTML5 drag-and-drop is a mouse interaction');
+  await openScreenshotMode(page, '/?sample=1');
+  await page.getByTestId('tab-furniture').click();
+  await page.getByRole('tab', { name: /Plants/ }).click();
+  const cards = page.locator('.catalog-grid [data-catalog-id^="plant-"]');
+  expect(await cards.count()).toBeGreaterThanOrEqual(10);
+  const n = await page.evaluate(() => Object.keys(window.__mr!.store.level.items).length);
+  const target = await at(page, 2000, 1200);
+  await page.locator('[data-catalog-id="plant-monstera"]').dragTo(page.locator('canvas.plan-canvas'), {
+    targetPosition: await page.evaluate(
+      ([x, y]) => {
+        const r = window.__mr!.app.editor.canvas.getBoundingClientRect();
+        return { x: x! - r.left, y: y! - r.top };
+      },
+      [target.x, target.y],
+    ),
+  });
+  const items = await page.evaluate(() => Object.values(window.__mr!.store.level.items));
+  expect(items.length).toBe(n + 1);
+  const placed = items.find((i) => i.catalogId === 'plant-monstera')!;
+  expect(Math.abs(placed.x - 2000)).toBeLessThan(20);
+  await page.getByTestId('tab-furniture').click();
+  await expect(page.locator('.catalog h3').first()).toHaveText(/Recently used/);
+  await page.screenshot({ path: 'screenshots/p1-catalog-plants-desktop.png' });
+});

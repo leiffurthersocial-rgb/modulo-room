@@ -2,7 +2,9 @@ import data from './catalog.json';
 
 export type Mount = 'floor' | 'wall' | 'ceiling' | 'surface';
 /** [shape, x0, y0, z0, x1, y1, z1] in normalised item space (x: width, y: back→front, z: up). */
-export type Part = ['box' | 'cyl', number, number, number, number, number, number];
+export type PartShape = 'box' | 'cyl' | 'sph' | 'cone';
+export type Part = [PartShape, number, number, number, number, number, number];
+const SHAPES: readonly PartShape[] = ['box', 'cyl', 'sph', 'cone'];
 
 export interface CatalogEntry {
   id: string;
@@ -30,10 +32,12 @@ export const CATEGORIES: { id: string; name: string }[] = [
   { id: 'kitchen', name: 'Kitchen' },
   { id: 'bathroom', name: 'Bathroom' },
   { id: 'electronics', name: 'Electronics' },
+  { id: 'kids', name: 'Kids' },
   { id: 'plant', name: 'Plants' },
   { id: 'lamp', name: 'Lamps' },
   { id: 'rug', name: 'Rugs' },
   { id: 'fixture', name: 'Fixtures' },
+  { id: 'leisure', name: 'Leisure' },
   { id: 'custom', name: 'Custom' },
 ];
 
@@ -76,7 +80,7 @@ export function validateCatalog(raw: unknown): string[] {
         if (
           !Array.isArray(p) ||
           p.length !== 7 ||
-          (p[0] !== 'box' && p[0] !== 'cyl') ||
+          !SHAPES.includes(p[0] as PartShape) ||
           p.slice(1).some((n) => typeof n !== 'number' || n < -0.1 || n > 1.1)
         )
           errs.push(`${where}: bad part ${JSON.stringify(p)}`);
@@ -90,4 +94,29 @@ const BY_ID = new Map(CATALOG.map((e) => [e.id, e]));
 
 export function catalogEntry(id: string): CatalogEntry | undefined {
   return BY_ID.get(id);
+}
+
+/**
+ * Top-view outline of a part in item-local mm (item centred at 0,0; +y = front).
+ * Round shapes become ellipses fitted to the part's bounds.
+ */
+export function partFootprint(
+  part: Part,
+  width: number,
+  depth: number,
+  mirrored = false,
+): { x: number; y: number }[] {
+  const [shape, x0, y0, , x1, y1] = part;
+  const mx = mirrored ? -1 : 1;
+  const L = (x: number, y: number) => ({ x: (x - 0.5) * width * mx, y: (y - 0.5) * depth });
+  if (shape === 'box') return [L(x0, y0), L(x1, y0), L(x1, y1), L(x0, y1)];
+  const c = L((x0 + x1) / 2, (y0 + y1) / 2);
+  const rx = ((x1 - x0) * width) / 2;
+  const ry = ((y1 - y0) * depth) / 2;
+  const out: { x: number; y: number }[] = [];
+  for (let i = 0; i < 24; i++) {
+    const a = (i / 24) * Math.PI * 2;
+    out.push({ x: c.x + Math.cos(a) * rx, y: c.y + Math.sin(a) * ry });
+  }
+  return out;
 }

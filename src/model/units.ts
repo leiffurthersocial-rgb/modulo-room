@@ -127,3 +127,10 @@ export function parseAngle(input: string): number | null {
 export function formatAngle(deg: number): string {
   return `${trimZeros(deg.toFixed(1))}°`;
 }
+
+/** Compact "W × D" for small labels: one unit at the end in metric (cm), ft-in otherwise. */
+export function formatDimsCompact(w: number, d: number, prefs: UnitPrefs): string {
+  if (prefs.units === 'imperial') return `${formatLength(w, prefs)} × ${formatLength(d, prefs)}`;
+  const cm = (v: number) => trimZeros((v / 10).toFixed(1));
+  return `${cm(w)} × ${cm(d)} cm`;
+}

@@ -130,7 +130,8 @@ export function buildSampleProject(): Project {
     item('tv-unit', 1650, 225, 0),
     item('tv', 1650, 40, 0),
     item('armchair', 3200, 2200, 90),
-    item('plant-floor', 350, 350),
+    item('plant-fiddle', 300, 300),
+    item('plant-palm', 3650, 550),
     item('table-dining', 3350, 4350, 90, { width: 1300, depth: 800 }),
     item('chair-dining', 2690, 4050, 270),
     item('chair-dining', 2690, 4650, 270),
@@ -141,6 +142,7 @@ export function buildSampleProject(): Project {
     item('lamp-table', 4475, 225, 0, { elevation: 500 }),
     item('table-side', 6575, 225),
     item('wardrobe-2', 6600, 2600, 90),
+    item('plant-snake', 6725, 700),
     // bathroom
     item('shower', 4700, 4550),
     item('toilet', 5550, 4660, 180),

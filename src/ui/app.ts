@@ -6,7 +6,7 @@ import { Editor, isTyping } from '../editor2d/editor';
 import type { Hit } from '../editor2d/hit';
 import { SvgPainter, CanvasPainter } from '../editor2d/painter';
 import { drawPlan } from '../editor2d/render';
-import { OPENING_DEFAULTS, wallUnder } from '../editor2d/tools/place';
+import { itemAt, OPENING_DEFAULTS, wallUnder } from '../editor2d/tools/place';
 import { editItemSize, editOpening, editText, editWallLength, renameRoom } from '../editor2d/tools/edits';
 import type { NumericRequest } from '../editor2d/tools/types';
 import { Viewport } from '../editor2d/viewport';
@@ -27,7 +27,7 @@ import {
 } from '../persistence/db';
 import { segmented } from './fields';
 import { icons } from './icons';
-import { inspector, setUnits, unitsValue, type AppCtx } from './inspector';
+import { CATALOG_MIME, inspector, setUnits, unitsValue, type AppCtx } from './inspector';
 import { SHORTCUTS, toolForKey } from './shortcuts';
 
 interface MenuState {
@@ -36,18 +36,35 @@ interface MenuState {
   hit: Hit | null;
 }
 
-const TOOLS: { id: ToolId; label: string; key: string; icon: TemplateResult }[] = [
-  { id: 'select', label: 'Select & move', key: 'V', icon: icons.select },
-  { id: 'wall', label: 'Draw walls', key: 'W', icon: icons.wall },
-  { id: 'room', label: 'Draw room (rectangle)', key: 'B', icon: icons.room },
-  { id: 'door', label: 'Door', key: 'D', icon: icons.door },
-  { id: 'window', label: 'Window', key: 'N', icon: icons.window },
-  { id: 'furniture', label: 'Furniture', key: 'F', icon: icons.furniture },
-  { id: 'measure', label: 'Measure / dimension', key: 'M', icon: icons.measure },
-  { id: 'text', label: 'Text label', key: 'T', icon: icons.text },
-  { id: 'erase', label: 'Erase', key: 'X', icon: icons.erase },
-  { id: 'pan', label: 'Pan', key: 'H', icon: icons.pan },
+interface ToolDef {
+  id: ToolId;
+  label: string;
+  short: string;
+  key: string;
+  icon: TemplateResult;
+}
+
+/** Tools grouped: navigate · build · furnish · annotate. */
+const TOOL_GROUPS: ToolDef[][] = [
+  [
+    { id: 'select', label: 'Select & move', short: 'Select', key: 'V', icon: icons.select },
+    { id: 'pan', label: 'Pan', short: 'Pan', key: 'H', icon: icons.pan },
+  ],
+  [
+    { id: 'room', label: 'Draw room (rectangle)', short: 'Room', key: 'B', icon: icons.room },
+    { id: 'wall', label: 'Draw walls', short: 'Walls', key: 'W', icon: icons.wall },
+    { id: 'door', label: 'Door', short: 'Door', key: 'D', icon: icons.door },
+    { id: 'window', label: 'Window', short: 'Window', key: 'N', icon: icons.window },
+  ],
+  [{ id: 'furniture', label: 'Furniture', short: 'Furnish', key: 'F', icon: icons.furniture }],
+  [
+    { id: 'measure', label: 'Measure / dimension', short: 'Measure', key: 'M', icon: icons.measure },
+    { id: 'text', label: 'Text label', short: 'Text', key: 'T', icon: icons.text },
+    { id: 'erase', label: 'Erase', short: 'Erase', key: 'X', icon: icons.erase },
+  ],
 ];
+
+const RECENT_KEY = 'mr.recentCatalog';
 
 export class App implements AppCtx {
   readonly editor: Editor;
@@ -67,6 +84,7 @@ export class App implements AppCtx {
   private scheduled = 0;
   private saveTimer = 0;
   private persisted = false;
+  panelTab: 'props' | 'furniture' = 'props';
 
   constructor(
     host: HTMLElement,
@@ -95,7 +113,26 @@ export class App implements AppCtx {
         this.scheduleStatus();
       },
     });
+    this.bindCatalogDrop(canvasHost);
+    try {
+      const saved = JSON.parse(localStorage.getItem(RECENT_KEY) ?? '[]') as unknown;
+      if (Array.isArray(saved))
+        store.recent = saved.filter((x): x is string => typeof x === 'string').slice(0, 8);
+    } catch {
+      /* storage unavailable */
+    }
+    let lastRecent = store.recent.join();
     store.subscribe((reason) => {
+      if (reason === 'selection' && store.selection.length && store.tool !== 'furniture')
+        this.panelTab = 'props';
+      if (store.recent.join() !== lastRecent) {
+        lastRecent = store.recent.join();
+        try {
+          localStorage.setItem(RECENT_KEY, JSON.stringify(store.recent));
+        } catch {
+          /* ignore */
+        }
+      }
       if (reason === 'load') {
         this.loadImages();
         requestAnimationFrame(() => this.editor.fitView());
@@ -146,18 +183,21 @@ export class App implements AppCtx {
     return html`<div class=${`app ${this.inspectorOpen ? 'with-inspector' : ''}`}>
       ${this.topbar()}
       <nav class="toolbar" aria-label="Tools">
-        ${TOOLS.map(
-          (t) =>
-            html`<button
-              class=${s.tool === t.id ? 'tool on' : 'tool'}
-              data-tool=${t.id}
-              title=${`${t.label} (${t.key})`}
-              aria-label=${t.label}
-              aria-pressed=${s.tool === t.id ? 'true' : 'false'}
-              @click=${() => this.setTool(t.id)}
-            >
-              ${t.icon}<span class="tool-key">${t.key}</span>
-            </button>`,
+        ${TOOL_GROUPS.map(
+          (g, gi) =>
+            html`${gi ? html`<span class="sep"></span>` : nothing}${g.map(
+              (t) =>
+                html`<button
+                  class=${s.tool === t.id ? 'tool on' : 'tool'}
+                  data-tool=${t.id}
+                  title=${`${t.label} (${t.key})`}
+                  aria-label=${t.label}
+                  aria-pressed=${s.tool === t.id ? 'true' : 'false'}
+                  @click=${() => this.setTool(t.id)}
+                >
+                  ${t.icon}<span class="tool-label">${t.short}</span>
+                </button>`,
+            )}`,
         )}
         <span class="sep"></span>
         <button
@@ -167,7 +207,7 @@ export class App implements AppCtx {
           aria-pressed=${s.settings.snap ? 'true' : 'false'}
           @click=${() => s.updateSettings({ snap: !s.settings.snap })}
         >
-          ${icons.magnet}
+          ${icons.magnet}<span class="tool-label">Snap</span>
         </button>
         <button
           class=${s.settings.showGrid ? 'tool on-soft' : 'tool'}
@@ -176,7 +216,7 @@ export class App implements AppCtx {
           aria-pressed=${s.settings.showGrid ? 'true' : 'false'}
           @click=${() => s.updateSettings({ showGrid: !s.settings.showGrid })}
         >
-          ${icons.grid}
+          ${icons.grid}<span class="tool-label">Grid</span>
         </button>
       </nav>
       <main class="stage">
@@ -757,8 +797,41 @@ export class App implements AppCtx {
   // ------------------------------------------------------------ actions
   setTool(t: ToolId): void {
     this.store.setTool(t);
-    if (t === 'furniture') this.inspectorOpen = true;
+    if (t === 'furniture') {
+      this.inspectorOpen = true;
+      this.panelTab = 'furniture';
+    }
     this.invalidate();
+  }
+
+  setPanelTab(t: 'props' | 'furniture'): void {
+    this.panelTab = t;
+    this.inspectorOpen = true;
+    if (t === 'props' && this.store.tool === 'furniture') this.store.setTool('select');
+    this.invalidate();
+  }
+
+  /** Drop a catalog item dragged from the panel onto the plan. */
+  private bindCatalogDrop(host: HTMLElement): void {
+    host.addEventListener('dragover', (e) => {
+      if (!e.dataTransfer?.types.includes(CATALOG_MIME)) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+    });
+    host.addEventListener('drop', (e) => {
+      const id = e.dataTransfer?.getData(CATALOG_MIME);
+      if (!id) return;
+      e.preventDefault();
+      const r = this.editor.canvas.getBoundingClientRect();
+      const world = this.editor.vp.toWorld({ x: e.clientX - r.left, y: e.clientY - r.top });
+      const s = this.store;
+      const it = itemAt(s, id, world, 0, e.altKey, 8 / this.editor.vp.scale);
+      if (!it) return;
+      s.dispatch({ type: 'add', level: s.levelId, coll: 'items', values: [it] });
+      s.pushRecent(id);
+      s.select([{ coll: 'items', id: it.id }]);
+      this.editor.canvas.focus({ preventScroll: true });
+    });
   }
 
   toast(msg: string): void {

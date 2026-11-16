@@ -65,3 +65,12 @@ describe('parseLength', () => {
     expect(parseAngle('x')).toBeNull();
   });
 });
+
+import { formatDimsCompact } from '../../src/model/units';
+describe('formatDimsCompact', () => {
+  it('uses one unit in metric and ft-in in imperial', () => {
+    expect(formatDimsCompact(950, 2050, m)).toBe('95 × 205 cm');
+    expect(formatDimsCompact(955, 2000, cm)).toBe('95.5 × 200 cm');
+    expect(formatDimsCompact(304.8, 609.6, imp)).toBe(`1' 0" × 2' 0"`);
+  });
+});

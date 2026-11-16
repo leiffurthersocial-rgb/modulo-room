@@ -5,6 +5,7 @@ import { dist, dot, leftNormal, norm, pointInPolygon, projectOnSegment, sub } fr
 import { newId } from '../../model/ids';
 import { formatLength } from '../../model/units';
 import type { Item, Level, Opening, OpeningKind, Vec2 } from '../../model/types';
+import type { Store } from '../../app/store';
 import type { Painter } from '../painter';
 import { THEME } from '../render';
 import type { EditorApi, PointerInfo, Tool, ToolAction } from './types';
@@ -214,6 +215,40 @@ export class OpeningTool implements Tool {
   }
 }
 
+/**
+ * A new catalog item at a world point: real-world catalog size, snapped to 10 mm,
+ * turned with its back to a nearby wall (unless Alt / snapping off / rugs).
+ */
+export function itemAt(
+  s: Store,
+  catalogId: string,
+  world: Vec2,
+  rotation: number,
+  alt: boolean,
+  tol: number,
+  id?: string,
+): Item | null {
+  const entry = catalogEntry(catalogId);
+  if (!entry) return null;
+  let it: Item = {
+    id: id ?? newId('i'),
+    catalogId: entry.id,
+    x: Math.round(world.x / 10) * 10,
+    y: Math.round(world.y / 10) * 10,
+    rotation,
+    width: entry.dims.width,
+    depth: entry.dims.depth,
+    height: entry.dims.height,
+    elevation: entry.elevation,
+  };
+  if (!alt && s.settings.snap && entry.category !== 'rug') {
+    const t = Math.max(250, tol * 2);
+    const m = magnetToWall(s.committedDerived.footprints, it, entry.mount === 'wall' ? t * 2 : t);
+    if (m) it = { ...it, ...m };
+  }
+  return it;
+}
+
 export class FurnitureTool implements Tool {
   readonly id = 'furniture' as const;
   cursor = 'copy';
@@ -249,24 +284,8 @@ export class FurnitureTool implements Tool {
 
   move(e: PointerInfo): void {
     const s = this.api.store;
-    const entry = catalogEntry(s.toolOptions.catalogId);
-    if (!entry) return;
-    let it: Item = {
-      id: this.ghost?.id ?? newId('i'),
-      catalogId: entry.id,
-      x: Math.round(e.world.x / 10) * 10,
-      y: Math.round(e.world.y / 10) * 10,
-      rotation: this.rotation,
-      width: entry.dims.width,
-      depth: entry.dims.depth,
-      height: entry.dims.height,
-      elevation: entry.elevation,
-    };
-    if (!e.alt && s.settings.snap && entry.category !== 'rug') {
-      const tol = Math.max(250, e.tol * 2);
-      const m = magnetToWall(s.committedDerived.footprints, it, entry.mount === 'wall' ? tol * 2 : tol);
-      if (m) it = { ...it, ...m };
-    }
+    const it = itemAt(s, s.toolOptions.catalogId, e.world, this.rotation, e.alt, e.tol, this.ghost?.id);
+    if (!it) return;
     this.ghost = it;
     s.preview({ type: 'add', level: s.levelId, coll: 'items', values: [it] });
     this.api.requestRender();
@@ -279,9 +298,11 @@ export class FurnitureTool implements Tool {
     if (!g) return;
     this.api.store.preview(null);
     this.api.store.dispatch({ type: 'add', level: this.api.store.levelId, coll: 'items', values: [g] });
+    this.api.store.pushRecent(g.catalogId);
     this.ghost = null;
-    this.api.select([{ coll: 'items', id: g.id }]);
+    // Shift keeps placing; otherwise back to Select with the new item's properties.
     if (!e.shift) this.api.setTool('select');
+    this.api.select([{ coll: 'items', id: g.id }]);
   }
 
   up(): void {}

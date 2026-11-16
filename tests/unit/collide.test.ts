@@ -43,6 +43,14 @@ describe('catalog', () => {
     ])
       expect(cats.has(c)).toBe(true);
   });
+  it('has a broad greybox range including plants', () => {
+    expect(CATALOG.length).toBeGreaterThanOrEqual(100);
+    expect(CATALOG.filter((e) => e.category === 'plant').length).toBeGreaterThanOrEqual(10);
+    for (const c of ['kids', 'leisure', 'fixture']) expect(CATALOG.some((e) => e.category === c)).toBe(true);
+    // every plant has a pot/stem and foliage (at least 2 parts)
+    for (const e of CATALOG.filter((x) => x.category === 'plant'))
+      expect(e.parts.length).toBeGreaterThanOrEqual(2);
+  });
   it('rejects bad entries', () => {
     expect(validateCatalog({ items: [{ id: 'X Y', dims: { width: -1 } }] }).length).toBeGreaterThan(3);
     expect(validateCatalog(null)).toHaveLength(1);

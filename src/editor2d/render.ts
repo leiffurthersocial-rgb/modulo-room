@@ -1,4 +1,4 @@
-import { catalogEntry } from '../catalog/catalog';
+import { catalogEntry, partFootprint } from '../catalog/catalog';
 import type { Derived } from '../app/derived';
 import { clearanceZone, doorSwing, itemCorners, itemToWorld } from '../geometry/collide';
 import { openingFrame, openingRect } from '../geometry/footprints';
@@ -123,19 +123,13 @@ function drawItem(p: Painter, it: Item, opts: RenderOpts, warn: boolean, busy: r
     // Top view of the primitive parts, highest parts drawn last.
     const parts = [...e.parts].sort((a, b) => a[6] - b[6]);
     for (const part of parts) {
-      const [shape, x0, y0, , x1, y1] = part;
-      const L = (x: number, y: number) => ({
-        x: (x - 0.5) * it.width * (it.mirrored ? -1 : 1),
-        y: (y - 0.5) * it.depth,
+      const pts = partFootprint(part, it.width, it.depth, !!it.mirrored).map((q) => itemToWorld(it, q));
+      p.poly(pts, {
+        fill,
+        alpha: part[0] === 'sph' || part[0] === 'cone' ? 0.55 : 0.35,
+        stroke: THEME.partStroke,
+        width: 0.8,
       });
-      if (shape === 'cyl') {
-        const c = itemToWorld(it, L((x0 + x1) / 2, (y0 + y1) / 2));
-        const r = (Math.min(x1 - x0, y1 - y0) * Math.min(it.width, it.depth)) / 2;
-        p.circle(c, r, { fill, alpha: 0.35, stroke: THEME.partStroke, width: 0.8 });
-      } else {
-        const pts = [L(x0, y0), L(x1, y0), L(x1, y1), L(x0, y1)].map((q) => itemToWorld(it, q));
-        p.poly(pts, { fill, alpha: 0.35, stroke: THEME.partStroke, width: 0.8 });
-      }
     }
   }
   const sel = isSel(opts.selection, 'items', it.id);

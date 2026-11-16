@@ -42,6 +42,23 @@ export const icons = {
   panel: wrap(svg`<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M15 4v16"/>`),
   close: wrap(svg`<path d="M6 6l12 12M18 6L6 18"/>`),
   warn: wrap(svg`<path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/>`),
+  search: wrap(svg`<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>`),
+  sliders: wrap(
+    svg`<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>`,
+  ),
+  plant: wrap(
+    svg`<path d="M8 21h8l1-6H7z"/><path d="M12 15V9"/><path d="M12 10c0-3 2-6 6-6 0 4-3 6-6 6zM12 12c0-2-2-4-5-4 0 3 2 4 5 4z"/>`,
+  ),
+  cube: wrap(svg`<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>`),
+  split: wrap(svg`<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M12 5v14"/>`),
+  pip: wrap(
+    svg`<rect x="3" y="5" width="18" height="14" rx="2"/><rect x="5" y="12" width="7" height="5" rx="1"/>`,
+  ),
+  plan: wrap(svg`<path d="M4 4h16v16H4z"/><path d="M4 12h7v8M11 4v5h9"/>`),
+  orbit: wrap(svg`<ellipse cx="12" cy="12" rx="9" ry="4"/><circle cx="12" cy="12" r="2"/>`),
+  top: wrap(svg`<rect x="5" y="5" width="14" height="14"/><path d="M12 2v3M12 19v3"/>`),
+  iso: wrap(svg`<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12v9"/>`),
+  walk: wrap(svg`<circle cx="13" cy="4" r="2"/><path d="M10 21l2-6 3 2v4M8 12l3-5 4 2 3 3M11 7l-1 5"/>`),
   lock: wrap(svg`<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>`),
 };
 

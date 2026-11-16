@@ -50,6 +50,8 @@ export class Store {
   };
   /** Hover target for UI highlight. */
   hover: Ref | null = null;
+  /** Recently placed catalog ids, most recent first (UI convenience, not undoable). */
+  recent: string[] = [];
   /** Incremented whenever the document changes (for autosave / dirty tracking). */
   revision = 0;
 
@@ -197,6 +199,11 @@ export class Store {
   setHover(ref: Ref | null): void {
     if (ref?.id === this.hover?.id && ref?.coll === this.hover?.coll) return;
     this.hover = ref;
+    this.emit('view');
+  }
+
+  pushRecent(catalogId: string): void {
+    this.recent = [catalogId, ...this.recent.filter((r) => r !== catalogId)].slice(0, 8);
     this.emit('view');
   }
 
