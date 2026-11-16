@@ -39,7 +39,7 @@ Chromium renders WebGL2 in software through ANGLE + SwiftShader. `playwright.con
 
 1. Sign in at https://vercel.com → **Add New… → Project** → **Import Git Repository** → pick `leiffurthersocial-rgb/modulo-room`. Install the Vercel GitHub app on that repo if asked.
 2. Framework preset: **Vite** (also set in `vercel.json`). Build command `npm run build`, output `dist`. No environment variables are needed.
-3. Production branch: `main`. Every other branch (including `claude/modulo-room-setup-6dw6kc`) gets a **Preview deployment** on each push.
+3. Production branch: Vercel uses the repo's **default branch**. The repo currently has no `main`; `claude/modulo-room-setup-6dw6kc` is the only (and default) branch, so every push to it is a **production deployment**. If a `main` branch is created later and made the default (GitHub → Settings → Default branch, and Vercel → Settings → Git → Production Branch), work branches get **Preview deployments** instead.
 4. Previews are behind Vercel Authentication by default. To let me (and anyone else with the link) open review builds, either set **Settings → Deployment Protection → Vercel Authentication** to _Only Production Deployments_ / _Disabled_ for previews, or send me the production URL after merging.
 5. Send me the deployment URL. I'll verify headers (`/assets/*` immutable cache, `.ktx2 → image/ktx2`) and the offline service worker against it.
 

@@ -93,4 +93,4 @@ Notes:
 - `vercel.json`: immutable 1-year cache on `/assets/*`, `image/ktx2` and `model/gltf-binary` content types, `sw.js` revalidated on every load
 - GitHub Actions `.github/workflows/ci.yml`: format, lint, typecheck, unit, Playwright (Chromium), uploads screenshots/report
 - First commit pushed to `claude/modulo-room-setup-6dw6kc`
-- Vercel: **waiting on you** (SETUP.md §4)
+- Vercel: **waiting on you** (SETUP.md §4). As of the last check, GitHub showed no deployments and no commit statuses for `99290fd`.
