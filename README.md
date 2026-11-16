@@ -2,7 +2,7 @@
 
 Browser-based room planner: draw your real room as a 2D floor plan, furnish it at real-world sizes, and see the same model live in 3D. Offline-first PWA for desktop browsers and iPad Safari.
 
-Status: **Phase 1 (2D greybox editor) done — in review.** Draw rooms and walls with exact sizes, doors/windows, furniture at real sizes, checks for overlaps / blocked doors / walkways, autosave, JSON/SVG/PNG export. 3D comes in Phase 2.
+Status: **Phase 1 (2D greybox editor) done — in review.** Draw rooms and walls with exact sizes, doors/windows, furniture at real sizes, checks for overlaps / blocked doors / walkways, autosave, JSON/SVG/PNG export. Greybox 3D view (view-only): split, 3D, picture-in-picture; orbit, top, iso and walk cameras; cutaway and dollhouse.
 
 Try it: open the app → "Open the sample flat", or "Draw a room" and type the inside size.
 
@@ -12,6 +12,7 @@ Try it: open the app → "Open the sample flat", or "Draw a room" and type the i
 - [ENVIRONMENT.md](ENVIRONMENT.md) — environment audit
 - [SETUP.md](SETUP.md) — how to reproduce, test and deploy
 - [docs/phase-1-review.md](docs/phase-1-review.md) — Phase 1 summary, screenshots, numbers, open questions
+- [docs/phase-2-review.md](docs/phase-2-review.md) — catalog + UI round and greybox 3D
 
 ```bash
 npm ci && npm run dev      # http://localhost:5173

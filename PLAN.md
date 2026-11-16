@@ -1,6 +1,6 @@
 # PLAN.md — Modulo: Room
 
-Status: **Phase 1 done — awaiting your review** (see docs/phase-1-review.md). Plan approved 2026-11-16 ("make it usable, greybox"); open questions answered with the proposed defaults (Q1 inside faces, Q2 no PRs, Q4 no WebKit yet, Q5 metric, Q6 keep hosts). Scope for now: **greybox only** (Phases 1–3). Phases 4–5 are listed for orientation and will be re-planned when you unlock them.
+Status: **Phase 1 done; catalog/UI round and greybox 3D (view-only) done — awaiting review** (see docs/phase-1-review.md and docs/phase-2-review.md). Plan approved 2026-11-16 ("make it usable, greybox"); open questions answered with the proposed defaults (Q1 inside faces, Q2 no PRs, Q4 no WebKit yet, Q5 metric, Q6 keep hosts). Scope for now: **greybox only** (Phases 1–3). Phases 4–5 are listed for orientation and will be re-planned when you unlock them.
 Architecture and reasoning: RESEARCH.md §7. Decision log: DECISIONS.md.
 
 ## Ground rules I'll follow
@@ -70,7 +70,7 @@ Architecture and reasoning: RESEARCH.md §7. Decision log: DECISIONS.md.
 - **M2.2** Layout modes (2D / 3D / split / picture-in-picture); cameras: orbit, top orthographic, isometric; render on demand; resize/dispose hygiene; `webglcontextlost` handling; crash-loop safe mode.
 - **M2.3** Cutaway (auto / show all / dollhouse / ceiling on-off), hover tooltips (name + size), dimension overlay toggle.
 - **M2.4** First-person: pointer lock + WASD on desktop, joystick + drag-look on touch, eye height setting, 2D capsule collision vs walls and furniture, "walk to this spot", avatar mirrored in 2D, camera bookmarks.
-- **M2.5** 3D editing: pick, drag on the floor with the same snapping engine, rotate gizmo, inspector edits, all through commands (mirrored in 2D).
+- **M2.5** 3D editing: pick, drag on the floor with the same snapping engine, rotate gizmo, inspector edits, all through commands (mirrored in 2D). **Deferred: 3D is view-only for now (your decision, D-027).**
 - **M2.6** Basic lighting (hemisphere + one directional, simple shadows toggle). Benchmark route `/bench` with a 100-item, 10-room project and a scripted camera path logging avg/p95 frame time.
 - **STOP: Phase 2 review.** Targets: 60 FPS desktop, 30+ FPS iPad (measured on your iPad via `/bench`, since headless SwiftShader numbers aren't representative).
 

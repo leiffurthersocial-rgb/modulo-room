@@ -63,11 +63,22 @@ export const SHORTCUTS: { group: string; items: [string, string][] }[] = [
     group: 'View & files',
     items: [
       ['0', 'Zoom to fit'],
+      ['1 / 2 / 3 / 4', '2D · Split · 3D · Picture-in-picture'],
       ['+ / −', 'Zoom'],
       ['G', 'Grid on/off'],
       ['Ctrl/⌘ S', 'Save project file'],
       ['Ctrl/⌘ O', 'Open project file'],
       ['?', 'This help'],
+    ],
+  },
+  {
+    group: '3D view (view only)',
+    items: [
+      ['Drag', 'Orbit (Orbit/Iso) · look around (Walk)'],
+      ['Right-drag / two fingers', 'Pan'],
+      ['Wheel / pinch', 'Zoom'],
+      ['W A S D / arrows', 'Walk (click the 3D view first)'],
+      ['Shift', 'Run'],
     ],
   },
   {

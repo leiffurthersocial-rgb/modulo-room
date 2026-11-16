@@ -18,6 +18,8 @@ export interface Footprints {
   walls: Map<Id, WallFootprint>;
   /** Fill polygons at junctions (T/X joins, bevels) that wall outlines leave open. */
   hubs: Vec2[][];
+  /** Node id of each hub (parallel to `hubs`). */
+  hubNodes: Id[];
 }
 
 interface EndCorners {
@@ -43,6 +45,7 @@ export function computeFootprints(level: Level): Footprints {
 
   const ends = new Map<string, EndCorners>();
   const hubs: Vec2[][] = [];
+  const hubNodes: Id[] = [];
   for (const [nodeId, list] of incident) {
     const n = level.nodes[nodeId];
     if (!n) continue;
@@ -86,7 +89,10 @@ export function computeFootprints(level: Level): Footprints {
       const uniq: Vec2[] = [];
       for (const p of cornerPts) if (!uniq.some((u) => dist(u, p) < 1e-3)) uniq.push(p);
       uniq.sort((p, q) => angleOf(sub(p, n)) - angleOf(sub(q, n)));
-      if (uniq.length >= 3) hubs.push(uniq);
+      if (uniq.length >= 3) {
+        hubs.push(uniq);
+        hubNodes.push(nodeId);
+      }
     }
   }
 
@@ -110,7 +116,7 @@ export function computeFootprints(level: Level): Footprints {
       length: dist(a, b),
     });
   }
-  return { walls, hubs };
+  return { walls, hubs, hubNodes };
 }
 
 export function wallLength(level: Level, w: Wall): number {

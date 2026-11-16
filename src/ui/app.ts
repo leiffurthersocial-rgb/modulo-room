@@ -29,6 +29,8 @@ import { segmented } from './fields';
 import { icons } from './icons';
 import { CATALOG_MIME, inspector, setUnits, unitsValue, type AppCtx } from './inspector';
 import { SHORTCUTS, toolForKey } from './shortcuts';
+import type { View3D as View3DType, CameraMode, WallMode } from '../view3d/view3d';
+import { screenshotMode } from '../screenshot-mode';
 
 interface MenuState {
   screen: Vec2;
@@ -65,6 +67,16 @@ const TOOL_GROUPS: ToolDef[][] = [
 ];
 
 const RECENT_KEY = 'mr.recentCatalog';
+const LAYOUT_KEY = 'mr.layout';
+
+export type Layout = '2d' | 'split' | '3d' | 'pip';
+
+const LAYOUTS: { id: Layout; label: string; key: string; icon: TemplateResult }[] = [
+  { id: '2d', label: '2D plan', key: '1', icon: icons.plan },
+  { id: 'split', label: 'Split 2D + 3D', key: '2', icon: icons.split },
+  { id: '3d', label: '3D view', key: '3', icon: icons.cube },
+  { id: 'pip', label: '2D with 3D picture-in-picture', key: '4', icon: icons.pip },
+];
 
 export class App implements AppCtx {
   readonly editor: Editor;
@@ -85,6 +97,10 @@ export class App implements AppCtx {
   private saveTimer = 0;
   private persisted = false;
   panelTab: 'props' | 'furniture' = 'props';
+  layout: Layout = '2d';
+  private view3d: View3DType | null = null;
+  private view3dLoading = false;
+  private view3dError = '';
 
   constructor(
     host: HTMLElement,
@@ -148,7 +164,17 @@ export class App implements AppCtx {
       if (this.saveTimer) void this.saveNow();
     });
     this.loadImages();
+    let saved: string | null = null;
+    try {
+      saved = localStorage.getItem(LAYOUT_KEY);
+    } catch {
+      /* ignore */
+    }
+    const initial = (new URLSearchParams(location.search).get('view') ??
+      saved ??
+      (!screenshotMode && window.innerWidth >= 1280 ? 'split' : '2d')) as Layout;
     this.renderNow();
+    if (LAYOUTS.some((l) => l.id === initial) && initial !== '2d') this.setLayout(initial);
   }
 
   get prefs(): UnitPrefs {
@@ -219,21 +245,27 @@ export class App implements AppCtx {
           ${icons.grid}<span class="tool-label">Grid</span>
         </button>
       </nav>
-      <main class="stage">
-        <div class="canvas-host"></div>
-        ${this.toolOptions()} ${this.emptyState()} ${this.actionBar()} ${this.numericPopover()}
-        ${this.contextMenuTpl()}
-        <div class="zoom-ctl">
-          <button title="Zoom out (-)" aria-label="Zoom out" @click=${() => this.editor?.zoomBy(1 / 1.25)}>
-            ${icons.zoomOut}
-          </button>
-          <button title="Zoom to fit (0)" aria-label="Zoom to fit" @click=${() => this.editor?.fitView()}>
-            ${icons.fit}
-          </button>
-          <button title="Zoom in (+)" aria-label="Zoom in" @click=${() => this.editor?.zoomBy(1.25)}>
-            ${icons.zoomIn}
-          </button>
-        </div>
+      <main class=${`stage layout-${this.layout}`}>
+        <section class="pane pane-2d" aria-label="2D plan">
+          <div class="canvas-host"></div>
+          ${this.toolOptions()} ${this.emptyState()} ${this.actionBar()} ${this.numericPopover()}
+          ${this.contextMenuTpl()}
+          <div class="zoom-ctl">
+            <button title="Zoom out (-)" aria-label="Zoom out" @click=${() => this.editor?.zoomBy(1 / 1.25)}>
+              ${icons.zoomOut}
+            </button>
+            <button title="Zoom to fit (0)" aria-label="Zoom to fit" @click=${() => this.editor?.fitView()}>
+              ${icons.fit}
+            </button>
+            <button title="Zoom in (+)" aria-label="Zoom in" @click=${() => this.editor?.zoomBy(1.25)}>
+              ${icons.zoomIn}
+            </button>
+          </div>
+        </section>
+        <section class="pane pane-3d" aria-label="3D view (view only)">
+          <div class="view3d-host"></div>
+          ${this.view3dControls()}
+        </section>
       </main>
       <aside class="inspector" aria-label="Properties">${this.editor ? inspector(this) : nothing}</aside>
       ${this.statusbar()} ${this.dialogTpl()}
@@ -287,6 +319,24 @@ export class App implements AppCtx {
         ${icons.redo}
       </button>
       <span class="spacer"></span>
+      <div class="layout-switch" role="radiogroup" aria-label="View">
+        ${LAYOUTS.map(
+          (l) =>
+            html`<button
+              role="radio"
+              data-layout=${l.id}
+              aria-checked=${this.layout === l.id ? 'true' : 'false'}
+              class=${this.layout === l.id ? 'on' : ''}
+              title=${`${l.label} (${l.key})`}
+              aria-label=${l.label}
+              @click=${() => this.setLayout(l.id)}
+            >
+              ${l.icon}<span
+                >${l.id === '2d' ? '2D' : l.id === 'split' ? 'Split' : l.id === '3d' ? '3D' : 'PiP'}</span
+              >
+            </button>`,
+        )}
+      </div>
       ${segmented(
         [
           { value: 'm', label: 'm' },
@@ -804,6 +854,138 @@ export class App implements AppCtx {
     this.invalidate();
   }
 
+  setLayout(l: Layout): void {
+    this.layout = l;
+    try {
+      localStorage.setItem(LAYOUT_KEY, l);
+    } catch {
+      /* ignore */
+    }
+    this.renderNow();
+    if (l !== '2d') void this.ensure3D();
+    this.view3d?.setActive(l !== '2d');
+    // the 2D canvas changed size: refit once layout settles
+    requestAnimationFrame(() => this.editor.requestRender());
+  }
+
+  private async ensure3D(): Promise<void> {
+    if (this.view3d || this.view3dLoading) return;
+    const host = this.root.querySelector<HTMLElement>('.view3d-host');
+    if (!host) return;
+    this.view3dLoading = true;
+    this.invalidate();
+    const BOOT = 'mr.3d.booting';
+    let lowPower = false;
+    try {
+      lowPower = sessionStorage.getItem(BOOT) === '1';
+      sessionStorage.setItem(BOOT, '1');
+    } catch {
+      /* ignore */
+    }
+    try {
+      const mod = await import('../view3d/view3d');
+      this.view3d = new mod.View3D(host, this.store, { preserve: screenshotMode, lowPower });
+      (window as unknown as { __mr3d?: View3DType }).__mr3d = this.view3d;
+      this.view3d.setActive(this.layout !== '2d');
+      if (lowPower) this.toast('3D started in low-power mode after a previous crash');
+      setTimeout(() => {
+        try {
+          sessionStorage.removeItem(BOOT);
+        } catch {
+          /* ignore */
+        }
+      }, 5000);
+    } catch (e) {
+      this.view3dError = e instanceof Error ? e.message : 'WebGL is not available';
+    }
+    this.view3dLoading = false;
+    this.invalidate();
+  }
+
+  private view3dControls(): TemplateResult {
+    const v = this.view3d;
+    if (this.view3dError) return html`<div class="view3d-msg">3D view unavailable: ${this.view3dError}</div>`;
+    if (!v) return html`<div class="view3d-msg">${this.view3dLoading ? 'Loading 3D…' : ''}</div>`;
+    const cams: { id: CameraMode; label: string; icon: TemplateResult }[] = [
+      { id: 'orbit', label: 'Orbit', icon: icons.orbit },
+      { id: 'top', label: 'Top', icon: icons.top },
+      { id: 'iso', label: 'Iso', icon: icons.iso },
+      { id: 'walk', label: 'Walk', icon: icons.walk },
+    ];
+    const walls: { id: WallMode; label: string }[] = [
+      { id: 'auto', label: 'Cutaway' },
+      { id: 'all', label: 'All walls' },
+      { id: 'dollhouse', label: 'Dollhouse' },
+    ];
+    return html`<div class="view3d-bar">
+        <div class="seg3d" role="radiogroup" aria-label="Camera">
+          ${cams.map(
+            (c) =>
+              html`<button
+                role="radio"
+                data-camera=${c.id}
+                aria-checked=${v.cameraMode === c.id ? 'true' : 'false'}
+                class=${v.cameraMode === c.id ? 'on' : ''}
+                title=${c.label}
+                @click=${() => {
+                  v.setCameraMode(c.id);
+                  this.invalidate();
+                }}
+              >
+                ${c.icon}<span>${c.label}</span>
+              </button>`,
+          )}
+        </div>
+        <div class="seg3d" role="radiogroup" aria-label="Walls">
+          ${walls.map(
+            (w) =>
+              html`<button
+                role="radio"
+                data-walls=${w.id}
+                aria-checked=${v.wallMode === w.id ? 'true' : 'false'}
+                class=${v.wallMode === w.id ? 'on' : ''}
+                @click=${() => {
+                  v.setWallMode(w.id);
+                  this.invalidate();
+                }}
+              >
+                ${w.label}
+              </button>`,
+          )}
+        </div>
+        <button
+          class=${v.showCeiling ? 'chip on' : 'chip'}
+          @click=${() => {
+            v.setCeiling(!v.showCeiling);
+            this.invalidate();
+          }}
+        >
+          Ceiling
+        </button>
+        <button class="chip" title="Frame everything" @click=${() => v.fit()}>${icons.fit}</button>
+      </div>
+      <span class="view-only-badge">View only</span>
+      ${
+        v.cameraMode === 'walk'
+          ? html`<div class="walk-hint">
+              Drag to look · W A S D / arrows or the joystick to walk · Shift runs
+            </div>`
+          : nothing
+      }
+      ${
+        this.layout === 'pip'
+          ? html`<button
+              class="pip-expand"
+              title="Open 3D view"
+              aria-label="Open 3D view"
+              @click=${() => this.setLayout('3d')}
+            >
+              ${icons.fit}
+            </button>`
+          : nothing
+      }`;
+  }
+
   setPanelTab(t: 'props' | 'furniture'): void {
     this.panelTab = t;
     this.inspectorOpen = true;
@@ -1103,6 +1285,11 @@ export class App implements AppCtx {
   // ------------------------------------------------------------ keyboard
   private onKey(e: KeyboardEvent): void {
     if (isTyping(e)) return;
+    if (
+      (e.target as HTMLElement | null)?.classList?.contains('view3d-canvas') &&
+      this.view3d?.cameraMode === 'walk'
+    )
+      return;
     if (this.numeric) return;
     if (this.dialog) {
       if (e.key === 'Escape') {
@@ -1142,6 +1329,8 @@ export class App implements AppCtx {
     if (e.altKey) return;
     if (e.key === '?') return this.openDialog('help');
     if (e.key === '0') return this.editor.fitView();
+    const lay = LAYOUTS.find((l) => l.key === e.key);
+    if (lay) return this.setLayout(lay.id);
     if (e.key === '+' || e.key === '=') return this.editor.zoomBy(1.25);
     if (e.key === '-') return this.editor.zoomBy(1 / 1.25);
     if (k === 'g') return s.updateSettings({ showGrid: !s.settings.showGrid });
