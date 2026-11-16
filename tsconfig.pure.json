@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "lib": ["ES2023"], "types": [] },
+  "include": ["src/model", "src/geometry", "src/commands", "src/catalog/catalog.ts"]
+}
