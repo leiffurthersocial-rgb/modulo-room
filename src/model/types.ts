@@ -209,3 +209,6 @@ export interface Ref {
   coll: Coll;
   id: Id;
 }
+
+/** Partial update where `undefined` removes a field. */
+export type Patch<T> = { [K in keyof T]?: T[K] | undefined };

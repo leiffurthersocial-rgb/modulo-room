@@ -1,4 +1,4 @@
-import type { Coll, Entity, EntityOf, Id, Level, Project } from '../model/types';
+import type { Coll, Entity, EntityOf, Id, Level, Patch, Project } from '../model/types';
 
 /**
  * Primitive, serializable document operations. Every command compiles to a list of
@@ -131,7 +131,7 @@ export class Draft {
     );
   }
 
-  update<C extends Coll>(levelId: Id, coll: C, id: Id, patch: Partial<EntityOf[C]>): EntityOf[C] | undefined {
+  update<C extends Coll>(levelId: Id, coll: C, id: Id, patch: Patch<EntityOf[C]>): EntityOf[C] | undefined {
     const prev = this.get(levelId, coll, id);
     if (!prev) return undefined;
     // `undefined` in a patch removes the field (keeps JSON round-trips exact).

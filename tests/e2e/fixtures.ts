@@ -16,6 +16,7 @@ export const test = base.extend<{ consoleErrors: string[] }>({
 export { expect };
 
 export async function openScreenshotMode(page: import('@playwright/test').Page, path = '/'): Promise<void> {
+  // Same-origin service worker is fine; just avoid a stale cached shell between runs.
   const sep = path.includes('?') ? '&' : '?';
   await page.goto(`${path}${sep}screenshot=1`);
   await page.waitForFunction(() => window.__mrReady === true);

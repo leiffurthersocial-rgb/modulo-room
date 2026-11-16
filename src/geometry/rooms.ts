@@ -38,6 +38,8 @@ export interface DerivedRoom {
   meta: RoomMeta | undefined;
   /** Interior polygon (wall faces), clockwise on screen. */
   polygon: Vec2[];
+  /** For each polygon edge k (polygon[k] -> polygon[k+1]): index into cycle.edges, or null for caps. */
+  edgeIdx: (number | null)[];
   holes: Vec2[][];
   /** Net floor area in mm² (polygon minus holes). */
   area: number;
@@ -123,7 +125,18 @@ export function faceCycles(level: Level): FaceCycle[] {
  * room-side faces of the walls. Mitres at corners; square caps at dead ends.
  */
 export function offsetCycle(level: Level, edges: readonly HalfEdge[]): Vec2[] {
-  const pts: Vec2[] = [];
+  return offsetCycleDetailed(level, edges).points;
+}
+
+/**
+ * Like offsetCycle, but also reports for each output edge (points[k] -> points[k+1])
+ * the index of the half-edge in `edges` whose wall face it lies on (null for caps).
+ */
+export function offsetCycleDetailed(
+  level: Level,
+  edges: readonly HalfEdge[],
+): { points: Vec2[]; edgeIdx: (number | null)[] } {
+  const entries: { p: Vec2; after: number | null }[] = [];
   const n = edges.length;
   const half = (w: Wall | undefined) => (w ? w.thickness / 2 : 0);
   for (let i = 0; i < n; i++) {
@@ -143,14 +156,19 @@ export function offsetCycle(level: Level, edges: readonly HalfEdge[]): Vec2[] {
     const c = deadEnd ? null : lineIntersect(add(p, o1), d1, add(v, o2), d2);
     const limit = 8 * Math.max(half(w1), half(w2), 1);
     if (c && dist(c, v) <= limit) {
-      pts.push(c);
+      entries.push({ p: c, after: i });
+    } else if (dist(o1, o2) > 1e-6) {
+      entries.push({ p: add(v, o1), after: null });
+      entries.push({ p: add(v, o2), after: i });
     } else {
-      pts.push(add(v, o1));
-      if (dist(o1, o2) > 1e-6) pts.push(add(v, o2));
+      entries.push({ p: add(v, o1), after: i });
     }
   }
-  // Remove consecutive duplicates.
-  return pts.filter((pt, i) => dist(pt, pts[(i - 1 + pts.length) % pts.length] as Vec2) > 1e-6);
+  // Drop zero-length edges: when entry k equals entry k+1, entry k goes.
+  const kept = entries.filter(
+    (e, k) => dist(e.p, (entries[(k + 1) % entries.length] as (typeof entries)[number]).p) > 1e-6,
+  );
+  return { points: kept.map((e) => e.p), edgeIdx: kept.map((e) => e.after) };
 }
 
 function deterministicKey(walls: Id[]): Id {
@@ -169,12 +187,13 @@ export function deriveRooms(level: Level): DerivedRoom[] {
   const bounded = cycles.filter((c) => c.area > MIN_ROOM_AREA);
   const outers = cycles.filter((c) => c.area < -MIN_ROOM_AREA);
   const rooms: DerivedRoom[] = bounded.map((cycle) => {
-    const polygon = offsetCycle(level, cycle.edges);
+    const { points: polygon, edgeIdx } = offsetCycleDetailed(level, cycle.edges);
     const walls = [...new Set(cycle.edges.map((e) => e.wallId))];
     return {
       id: deterministicKey(walls),
       meta: undefined,
       polygon,
+      edgeIdx,
       holes: [],
       area: polygonArea(polygon),
       center: cycle.centerline[0] ?? { x: 0, y: 0 },

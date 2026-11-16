@@ -16,6 +16,8 @@ export interface CatalogEntry {
   tags: string[];
   /** Needs a free walkway in front (wardrobes, desks, kitchen units...). */
   access?: boolean;
+  /** Free depth needed in front, overriding the project's minimum walkway (mm). */
+  clearance?: number;
 }
 
 export const CATEGORIES: { id: string; name: string }[] = [
@@ -60,6 +62,11 @@ export function validateCatalog(raw: unknown): string[] {
     if (!MOUNTS.includes(e['mount'] as Mount)) errs.push(`${where}: bad mount`);
     if (typeof e['elevation'] !== 'number' || (e['elevation'] as number) < 0)
       errs.push(`${where}: bad elevation`);
+    if (
+      e['clearance'] !== undefined &&
+      (typeof e['clearance'] !== 'number' || (e['clearance'] as number) <= 0)
+    )
+      errs.push(`${where}: bad clearance`);
     if (typeof e['color'] !== 'string' || !/^#[0-9a-f]{6}$/i.test(e['color']))
       errs.push(`${where}: bad color`);
     const parts = e['parts'];

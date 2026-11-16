@@ -461,7 +461,8 @@
         ["box", 0, 0, 0.96, 1, 1, 1]
       ],
       "tags": ["kitchen", "cabinet"],
-      "access": true
+      "access": true,
+      "clearance": 1000
     },
     {
       "id": "kitchen-sink",
@@ -481,7 +482,8 @@
         ["box", 0.15, 0.15, 0.9, 0.85, 0.8, 0.99]
       ],
       "tags": ["kitchen", "sink"],
-      "access": true
+      "access": true,
+      "clearance": 1000
     },
     {
       "id": "kitchen-cooktop",
@@ -504,7 +506,8 @@
         ["cyl", 0.6, 0.55, 1, 0.9, 0.85, 1]
       ],
       "tags": ["kitchen", "appliance"],
-      "access": true
+      "access": true,
+      "clearance": 1000
     },
     {
       "id": "kitchen-wall",
@@ -535,7 +538,8 @@
       "color": "#f0eee9",
       "parts": [["box", 0, 0, 0, 1, 1, 1]],
       "tags": ["kitchen"],
-      "access": true
+      "access": true,
+      "clearance": 1000
     },
     {
       "id": "fridge",
@@ -551,7 +555,8 @@
       "color": "#dfe3e6",
       "parts": [["box", 0, 0, 0, 1, 1, 1]],
       "tags": ["kitchen", "appliance"],
-      "access": true
+      "access": true,
+      "clearance": 1000
     },
     {
       "id": "kitchen-island",
@@ -588,7 +593,8 @@
         ["cyl", 0.05, 0.2, 0, 0.95, 1, 0.55]
       ],
       "tags": ["bathroom"],
-      "access": true
+      "access": true,
+      "clearance": 600
     },
     {
       "id": "washbasin",
@@ -607,7 +613,8 @@
         ["box", 0.35, 0, 0, 0.65, 0.3, 0.85]
       ],
       "tags": ["bathroom"],
-      "access": true
+      "access": true,
+      "clearance": 600
     },
     {
       "id": "bathtub",
@@ -663,7 +670,8 @@
         ["cyl", 0.2, 0.98, 0.2, 0.8, 1, 0.8]
       ],
       "tags": ["appliance", "laundry"],
-      "access": true
+      "access": true,
+      "clearance": 600
     },
     {
       "id": "plant-floor",

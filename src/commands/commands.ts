@@ -1,5 +1,5 @@
 import { newId } from '../model/ids';
-import type { Coll, Entity, EntityOf, Id, Project, Ref, Vec2, Wall, WallNode } from '../model/types';
+import type { Coll, Entity, EntityOf, Id, Patch, Project, Ref, Vec2, Wall, WallNode } from '../model/types';
 import { deriveRooms } from '../geometry/rooms';
 import { dist, norm, sub } from '../geometry/vec';
 import { changeSetOf, Draft, type ChangeSet, type Op } from './ops';
@@ -22,8 +22,8 @@ export type Command =
   | { type: 'setWallLength'; level: Id; id: Id; length: number; anchor: 'a' | 'b' }
   | { type: 'splitWall'; level: Id; id: Id; at: Vec2 }
   | { type: 'add'; level: Id; coll: Coll; values: Entity[] }
-  | { type: 'update'; level: Id; coll: Coll; id: Id; patch: Partial<Entity> }
-  | { type: 'updateMany'; level: Id; coll: Coll; patches: { id: Id; patch: Partial<Entity> }[] }
+  | { type: 'update'; level: Id; coll: Coll; id: Id; patch: Patch<Entity> }
+  | { type: 'updateMany'; level: Id; coll: Coll; patches: { id: Id; patch: Patch<Entity> }[] }
   | { type: 'delete'; level: Id; refs: Ref[] }
   | { type: 'moveEntities'; level: Id; refs: Ref[]; dx: number; dy: number }
   | { type: 'paste'; level: Id; clip: Clipboard; dx: number; dy: number }
@@ -184,11 +184,11 @@ function run(d: Draft, cmd: Command): void {
       for (const v of cmd.values) d.put(cmd.level, cmd.coll, v as EntityOf[typeof cmd.coll]);
       return;
     case 'update':
-      d.update(cmd.level, cmd.coll, cmd.id, cmd.patch as Partial<EntityOf[typeof cmd.coll]>);
+      d.update(cmd.level, cmd.coll, cmd.id, cmd.patch as Patch<EntityOf[typeof cmd.coll]>);
       return;
     case 'updateMany':
       for (const p of cmd.patches)
-        d.update(cmd.level, cmd.coll, p.id, p.patch as Partial<EntityOf[typeof cmd.coll]>);
+        d.update(cmd.level, cmd.coll, p.id, p.patch as Patch<EntityOf[typeof cmd.coll]>);
       return;
     case 'delete':
       deleteRefs(d, cmd.level, cmd.refs);

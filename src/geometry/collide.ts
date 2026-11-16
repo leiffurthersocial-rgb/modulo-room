@@ -107,6 +107,7 @@ export interface CatalogInfo {
   category: string;
   mount: 'floor' | 'wall' | 'ceiling' | 'surface';
   access?: boolean;
+  clearance?: number;
 }
 
 const PEN = 5; // mm tolerance: touching is fine
@@ -192,14 +193,16 @@ export function planWarnings(
   }
 
   for (const it of solid) {
-    if (!info(it)?.access) continue;
-    const zone = clearanceZone(it, walkwayMin);
+    const inf = info(it);
+    if (!inf?.access) continue;
+    const need = inf.clearance ?? walkwayMin;
+    const zone = clearanceZone(it, need);
     for (const other of solid) {
       if (other.id === it.id || other.elevation > 1200) continue;
       if (convexPenetration(zone, corners.get(other.id) as Vec2[]) > PEN) {
         out.push({
           kind: 'clearance',
-          message: `Less than ${Math.round(walkwayMin)} mm free in front of ${label(it)}`,
+          message: `Less than ${Math.round(need)} mm free in front of ${label(it)}`,
           refs: [
             { coll: 'items', id: it.id },
             { coll: 'items', id: other.id },
@@ -213,7 +216,7 @@ export function planWarnings(
       if (convexPenetration(zone, w.poly) > PEN) {
         out.push({
           kind: 'clearance',
-          message: `Less than ${Math.round(walkwayMin)} mm free in front of ${label(it)} (wall)`,
+          message: `Less than ${Math.round(need)} mm free in front of ${label(it)} (wall)`,
           refs: [{ coll: 'items', id: it.id }],
           area: zone,
         });

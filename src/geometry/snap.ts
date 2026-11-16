@@ -26,6 +26,8 @@ export interface SnapContext {
   enabled: boolean;
   excludeNodes?: ReadonlySet<Id>;
   excludeWalls?: ReadonlySet<Id>;
+  /** Extra corner targets not yet in the document (e.g. the chain being drawn). */
+  extraPoints?: readonly Vec2[];
 }
 
 export interface SnapResult {
@@ -61,7 +63,10 @@ function walls(ctx: SnapContext): WallLine[] {
 export function snapPoint(raw: Vec2, ctx: SnapContext): SnapResult {
   if (!ctx.enabled) return { p: raw, kind: 'none', guides: [] };
   const tol = ctx.tol;
-  const nodes = Object.values(ctx.level.nodes).filter((n) => !ctx.excludeNodes?.has(n.id));
+  const nodes: { id: Id; x: number; y: number }[] = Object.values(ctx.level.nodes).filter(
+    (n) => !ctx.excludeNodes?.has(n.id),
+  );
+  ctx.extraPoints?.forEach((p, i) => nodes.push({ id: `__extra${i}`, x: p.x, y: p.y }));
 
   // 1) nodes
   let bestN: { id: Id; p: Vec2; d: number } | undefined;
@@ -69,7 +74,11 @@ export function snapPoint(raw: Vec2, ctx: SnapContext): SnapResult {
     const d = dist(raw, n);
     if (d < tol && (!bestN || d < bestN.d)) bestN = { id: n.id, p: { x: n.x, y: n.y }, d };
   }
-  if (bestN) return { p: bestN.p, kind: 'node', guides: [{ kind: 'marker', a: bestN.p }], nodeId: bestN.id };
+  if (bestN) {
+    const r: SnapResult = { p: bestN.p, kind: 'node', guides: [{ kind: 'marker', a: bestN.p }] };
+    if (!bestN.id.startsWith('__extra')) r.nodeId = bestN.id;
+    return r;
+  }
 
   const wl = walls(ctx);
   // 2) wall midpoints
